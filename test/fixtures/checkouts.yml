@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  student_id: MyString
+  item_id: MyString
+  startdate: 2014-11-14 01:23:37
+  enddate: 2014-11-14 01:23:37
+
+two:
+  student_id: MyString
+  item_id: MyString
+  startdate: 2014-11-14 01:23:37
+  enddate: 2014-11-14 01:23:37
