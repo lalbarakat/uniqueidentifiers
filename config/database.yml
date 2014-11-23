@@ -43,13 +43,13 @@ test:
   encoding: unicode
   database: uniqueidentifiers_test
   pool: 5
-  username: saasbook
-  password: saasbook
+  username: uniqueidentifiers
+  password:
 
 production:
   adapter: postgresql
   encoding: unicode
   database: uniqueidentifiers_production
   pool: 5
-  username: saasbook
-  password: saasbook
+  username: uniqueidentifiers
+  password: 
