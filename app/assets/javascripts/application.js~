@@ -23,7 +23,7 @@
 //= require datamask
 //= require rsdecoder
 //= require gf256poly
-//= require gf256
+//= require gs256
 //= require decoder
 //= require qrcode
 //= require findpat
