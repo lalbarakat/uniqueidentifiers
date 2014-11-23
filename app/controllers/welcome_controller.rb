@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-before_filter CASClient::Frameworks::Rails::Filter
+before_filter RubyCAS::Filter
   def index
   end
 end

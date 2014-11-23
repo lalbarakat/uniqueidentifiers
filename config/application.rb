@@ -9,6 +9,9 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
+
+
 module Uniqueidentifiers
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
