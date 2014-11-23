@@ -21,4 +21,4 @@
 <br />
 
 <%= button_to "Add Item", new_item_path, :method => :get %>
-<%= button_to "Back", welcome_index_path, :method => :get %>
+<%= button_to "Add Item", welcome_index_path, :method => :get %>

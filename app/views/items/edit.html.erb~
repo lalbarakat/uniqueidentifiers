@@ -1,3 +1,5 @@
+<h1>Edit Item</h1>
+<!-- QR CODE GOES HERE -->
 <%= form_for(@item) do |f| %>
   <% if @item.errors.any? %>
     <div id="error_explanation">
@@ -16,7 +18,7 @@
     <%= f.text_field :name %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "OK", items_path %>
   </div>
 <% end %>
 <%= button_to "Cancel", items_path, :method => :get %>
