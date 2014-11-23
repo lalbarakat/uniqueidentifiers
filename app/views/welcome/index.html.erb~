@@ -1,5 +1,6 @@
 <h1>Dashboard</h1>
 <p>Find me in app/views/welcome/index.html.erb</p>
+<li><%=link_to "Login", :controller =>:welcome, :action => :index %></li>
 <li><%=link_to "User Management", :controller =>:users, :action => :index %></li>
 <li><%=link_to "Manage Inventory", :controller =>:items, :action => :index %></li>
 <li><%=link_to "Generate Reports", :controller =>:students, :action => :index %></li>
