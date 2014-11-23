@@ -9,8 +9,6 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
-
 
 module Uniqueidentifiers
   class Application < Rails::Application
@@ -61,5 +59,8 @@ module Uniqueidentifiers
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+
+    config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
   end
 end
