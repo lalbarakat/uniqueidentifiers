@@ -16,6 +16,6 @@ Uniqueidentifiers::Application.initialize!
 #   :username_session_key => :cas_user,
 #   :extra_attributes_session_key => :cas_extra_attributes,
    :logger => cas_logger,
-   :enable_single_sign_out => true
-   :service_url => "https://uniqueidentifiers.herokuapp.com/"
+   :enable_single_sign_out => true,
+   :service_url => "https://uniqueidentifiers.herokuapp.com/",
 )
