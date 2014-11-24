@@ -55,6 +55,7 @@ class CheckoutsController < ApplicationController
 
   # PUT /checkouts/1
   # PUT /checkouts/1.json
+  # CHECKIN
   def update
     @checkout = Checkout.find(params[:id])
 

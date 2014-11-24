@@ -1,6 +1,9 @@
-<h1>Editing checkout</h1>
+<h1>Edit Checkout</h1>
 
 <%= render 'form' %>
+
+<canvas id="qr-canvas" width="800" height="600"></canvas>
+<%= javascript_tag "load();"%>
 
 <%= link_to 'Show', @checkout %> |
 <%= link_to 'Back', checkouts_path %>
