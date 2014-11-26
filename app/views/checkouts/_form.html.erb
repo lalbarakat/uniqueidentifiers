@@ -11,10 +11,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :student_id %><br />
-    <%= f.text_field :student_id %>
-  </div>
+  <%= f.hidden_field :student_id %>
+  <%= fields_for :students, @checkout.students do |fields| %>
+    <div class="field">
+      <%= fields.label :firstname %><br />
+      <%= fields.text_field :firstname %>
+    </div>
+  <% end %>
   <div class="field">
     <%= f.label :item_id %><br />
     <%= f.text_field :item_id %>
