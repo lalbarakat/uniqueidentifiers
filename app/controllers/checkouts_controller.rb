@@ -25,6 +25,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
+    @students = Student.pluck(:UIN);
 
     respond_to do |format|
       format.html # new.html.erb

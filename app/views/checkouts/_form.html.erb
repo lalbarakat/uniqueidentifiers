@@ -10,25 +10,29 @@
       </ul>
     </div>
   <% end %>
-
-  <%= f.hidden_field :student_id %>
-  <%= fields_for :students, @checkout.students do |fields| %>
-    <div class="field">
-      <%= fields.label :firstname %><br />
-      <%= fields.text_field :firstname %>
-    </div>
-  <% end %>
+  
   <div class="field">
-    <%= f.label :item_id %><br />
-    <%= f.text_field :item_id %>
+    <%= f.label :student_id %><br />
+    <%= f.select :student_id, options_for_select(@students), :prompt => 'Select One' %>
   </div>
   <div class="field">
-    <%= f.label :startdate %><br />
-    <%= f.datetime_select :startdate %>
-  </div>
-  <div class="field">
-    <%= f.label :enddate %><br />
-    <%= f.datetime_select :enddate %>
+  <table id="item_tab">
+    <tr>
+      <td>
+        <%= f.label :item_id %><br />
+        <%= f.text_field :item_id %>
+        <button type="button" onclick="load();">Scan</button>
+      </td>
+      <td>
+        <%= f.label :startdate %><br />
+        <%= f.datetime_select :startdate %>
+      </td>
+      <td>
+        <%= f.label :enddate %><br />
+        <%= f.datetime_select :enddate %>
+      </td>
+    </tr>
+  </table>
   </div>
   <div class="actions">
     <%= f.submit %>
