@@ -101,7 +101,7 @@ function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function read(a)
+function read(index, a)
 {
     /*var html="<br>";
     if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
@@ -109,7 +109,7 @@ function read(a)
     html+="<b>"+htmlEntities(a)+"</b><br><br>";
     document.getElementById("result").innerHTML=html;
     */
-    document.getElementById('checkout_item_id').value = a;
+    document.getElementById('item_tab').rows[index].value = a;
 }	
 
 function isCanvasSupported(){
@@ -136,14 +136,13 @@ function error(error) {
     return;
 }
 
-function load()
+function load(index)
 {
 	if(isCanvasSupported() && window.File && window.FileReader)
 	{
 		initCanvas(800, 600);
 		qrcode.callback = read;
-		//document.getElementById("mainbody").style.display="inline";
-        setwebcam();
+        	setwebcam();
 	}
 	else
 	{
@@ -181,11 +180,6 @@ function setwebcam()
         n.mozGetUserMedia({video: true, audio: false}, success, error);
     }
 
-    //document.getElementById("qrimg").src="qrimg2.png";
-    //document.getElementById("webcamimg").src="webcam.png";
-    //document.getElementById("qrimg").style.opacity=0.2;
-    //document.getElementById("webcamimg").style.opacity=1.0;
-
     stype=1;
     setTimeout(captureToCanvas, 500);
 }
@@ -195,8 +189,6 @@ function setimg()
     if(stype==2)
         return;
     document.getElementById("outdiv").innerHTML = imghtml;
-    //document.getElementById("qrimg").src="qrimg.png";
-    //document.getElementById("webcamimg").src="webcam2.png";
     document.getElementById("qrimg").style.opacity=1.0;
     document.getElementById("webcamimg").style.opacity=0.2;
     var qrfile = document.getElementById("qrfile");

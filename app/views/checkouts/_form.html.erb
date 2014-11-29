@@ -20,8 +20,8 @@
     <tr>
       <td>
         <%= f.label :item_id %><br />
-        <%= f.text_field :item_id %>
-        <button type="button" onclick="load();">Scan</button>
+        <%= f.text_field :item_id, :readonly => true %>
+        <button type="button" onclick="load(this.parentNode.parentNode.rowIndex);">Scan</button>
       </td>
       <td>
         <%= f.label :startdate %><br />
