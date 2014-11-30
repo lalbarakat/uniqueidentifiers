@@ -1,3 +1,17 @@
+<script>
+var item_row = "";
+
+function add_row() {
+	var ref = document.getElementById('item_tab'); 
+	ref.insertRow(ref.rows.length-1); 
+	ref.rows[ref.rows.length-2].innerHTML = item_row;
+}
+
+$( document ).ready(function() {
+    item_row = $('#item_tab tr')[0].innerHTML;
+});
+</script>
+
 <%= form_for(@checkout) do |f| %>
   <% if @checkout.errors.any? %>
     <div id="error_explanation">
@@ -32,6 +46,7 @@
         <%= f.datetime_select :enddate %>
       </td>
     </tr>
+    <tr><td><button type="button" onclick="add_row()">Add Item</button></td></tr>
   </table>
   </div>
   <div class="actions">

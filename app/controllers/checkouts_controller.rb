@@ -1,4 +1,4 @@
-class CheckoutsController < ApplicationController
+class CheckoutsController < AuthenticatedController
   # GET /checkouts
   # GET /checkouts.json
   def index
@@ -25,7 +25,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
-    @students = Student.pluck(:UIN);
+    @students = Student.pluck(:UIN)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,6 +36,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/1/edit
   def edit
     @checkout = Checkout.find(params[:id])
+    @students = Student.pluck(:UIN)
   end
 
   # POST /checkouts

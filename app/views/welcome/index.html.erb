@@ -1,4 +1,10 @@
 <h1>Dashboard</h1>
+
+<% if logged_in? %>
+<h1>Hello, <%= @current_user.firstname %></h1>
+<%= link_to "Log out", logout_path, method: "delete" %>
+<% end %>
+
 <p>Find me in app/views/welcome/index.html.erb</p>
 <li><%=link_to "User Management", :controller =>:users, :action => :index %></li>
 <li><%=link_to "Manage Inventory", :controller =>:items, :action => :index %></li>
