@@ -7,12 +7,32 @@ function add_row() {
 	ref.rows[ref.rows.length-2].innerHTML = item_row;
 }
 
+function find_index(name, value) {
+	var list_title = '#' + name + '_list';
+	var list = $(list_title)[0];
+
+	for(var i = 0; i < list.options.length; i++) {
+		if(list.options[i].value == value) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 $( document ).ready(function() {
     item_row = $('#item_tab tr')[0].innerHTML;
+    $(".student_info").change(function () {
+    	var index = find_index($(this).attr('id'), this.value);
+    	$(".student_info").each(function () {
+    		if(index == -1) return;
+    		var list_title = '#' + $(this).attr('id') + '_list';
+    		$(this).val($(list_title + ' option').eq(index).val());
+	});
+    });
 });
 </script>
 
-<%= form_for(@checkout) do |f| %>
+<%= form_for @checkout do |f| %>
   <% if @checkout.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
@@ -25,10 +45,28 @@ $( document ).ready(function() {
     </div>
   <% end %>
   
-  <div class="field">
-    <%= f.label :student_id %><br />
-    <%= f.select :student_id, options_for_select(@students), :prompt => 'Select One' %>
-  </div>
+  <%= f.fields_for :student, builder: ComboboxFormBuilder do |s| %>
+	  <div class="field">
+	    <%= s.label :firstname %><br />
+	    <%= s.combobox_tag(:firstname, options_for_select(@firstnames), :list_id => "firstname_list", :value => @checkout.student.present? ? @checkout.student.firstname : "", :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :lastname %><br />
+	    <%= s.combobox_tag(:lastname, options_for_select(@lastnames), :list_id => "lastname_list", :value =>@checkout.student.present? ? @checkout.student.lastname : "", :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :uin %><br />
+	    <%= s.combobox_tag(:uin, options_for_select(@uins), :list_id => "uin_list", :value => @checkout.student.present? ? @checkout.student.uin : "", :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :email %><br />
+	    <%= s.combobox_tag(:email, options_for_select(@emails), :list_id => "email_list", :value => @checkout.student.present? ? @checkout.student.email : "", :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :phonenumber %><br />
+	    <%= s.combobox_tag(:phonenumber, options_for_select(@phones), :list_id => "phonenumber_list", :value => @checkout.student.present? ? @checkout.student.phonenumber : "", :class => "student_info")%>
+	  </div>
+  <% end %>
   <div class="field">
   <table id="item_tab">
     <tr>

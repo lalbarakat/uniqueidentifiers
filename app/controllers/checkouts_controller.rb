@@ -25,7 +25,12 @@ class CheckoutsController < AuthenticatedController
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
-    @students = Student.pluck(:UIN)
+    @students = Student.all()
+    @uins = @students.collect { |student| student.uin }
+    @firstnames = @students.collect { |student| student.firstname }
+    @lastnames = @students.collect { |student| student.lastname }
+    @emails = @students.collect { |student| student.email }
+    @phones = @students.collect { |student| student.phonenumber }
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,13 +41,22 @@ class CheckoutsController < AuthenticatedController
   # GET /checkouts/1/edit
   def edit
     @checkout = Checkout.find(params[:id])
-    @students = Student.pluck(:UIN)
+    @student = @checkout.student
+    @students = Student.all()
+    @uins = @students.collect { |student| student.uin }
+    @firstnames = @students.collect { |student| student.firstname }
+    @lastnames = @students.collect { |student| student.lastname }
+    @emails = @students.collect { |student| student.email }
+    @phones = @students.collect { |student| student.phonenumber }
   end
 
   # POST /checkouts
   # POST /checkouts.json
   def create
+    @student = Student.find_by_uin(params[:uin]) || 
+    		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
     @checkout = Checkout.new(params[:checkout])
+    @checkout.student = @student
 
     respond_to do |format|
       if @checkout.save

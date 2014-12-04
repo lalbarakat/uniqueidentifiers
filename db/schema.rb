@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141129200927) do
+ActiveRecord::Schema.define(:version => 20141203073203) do
 
   create_table "checkouts", :force => true do |t|
-    t.string   "student_id"
+    t.integer  "student_id"
     t.string   "item_id"
     t.datetime "startdate"
     t.datetime "enddate"
