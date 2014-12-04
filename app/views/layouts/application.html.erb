@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Uniqueidentifiers</title>
+  <title>Viz APEX</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -11,14 +11,18 @@
 <div id="page" class="container">
   <div id="header">
     <div id="logo"><a href="http://www.tamu.edu/"><img src="/footer_logo.png" alt=""></a> <div class="headerDivider"></div>
-          <tag>Uniqueidentifiers<br>System</tag>
+          <tag>Viz APEX<br>System</tag>
     </div>  
   </div>
 
 
   <div id="menu-top">
-      <div style="font-size: 20px;padding:10px;">Howdy, username</div>
-      <a href="#">Logout</a>
+  	<div>
+  	<% if logged_in? %>
+		<h1>Hello, <%= @current_user.firstname %></h1>
+		<%= link_to "Log out", logout_path, method: "delete" %>
+	<% end %>
+	</div>
   </div>
 <div class="span-19">
     <div id="content">

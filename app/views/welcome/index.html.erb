@@ -2,23 +2,14 @@
 
 <h1>Dashboard</h1>
 
-<% if logged_in? %>
-<h1>Hello, <%= @current_user.firstname %></h1>
-<%= link_to "Log out", logout_path, method: "delete" %>
-<% end %>
-
-<p>Find me in app/views/welcome/index.html.erb</p>
 <div class="tasks">
  <img width="50" src="Tasks.png">
   <tag>Tasks</tag>
 <ul>
-<li><%=link_to "Check Out", :controller =>:checkouts, :action => :index %></li>
+<li><%=link_to "Check Out", :controller =>:checkouts, :action => :new %></li>
 <li><%=link_to "Check In", :controller =>:checkouts, :action => :index %></li>
 </ul>
 </div>
-
-
-
 
 <div class="schedule">
 <img width="50" src="Schedule.png">
