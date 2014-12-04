@@ -6,13 +6,17 @@
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(:session, url: login_path) do |f| %>
 
-      <%= f.label :email %>
-      <%= f.text_field :email, class: 'form-control' %>
+      <div id="email">
+          <%= f.label :email, :style => 'padding-right:25px'%>
+          <%= f.text_field :email, class: 'form-control' %>
+      </div>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <div id="email" style="padding-top:20px; padding-bottom:20px;">
+          <%= f.label :password, :style => 'padding-right:3px'%>
+          <%= f.password_field :password, class: 'form-control' %>
+      </div>
 
-      <%= f.submit "Log in", class: "btn btn-primary" %>
+      <%= f.submit "Log in", class: "btn btn-primary", :style => 'padding:5px'%>
     <% end %>
   </div>
 </div>

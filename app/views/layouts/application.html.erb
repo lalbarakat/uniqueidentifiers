@@ -10,7 +10,7 @@
 
 <div id="page" class="container">
   <div id="header">
-    <div id="logo"><a href="http://www.tamu.edu/"><img src="/footer_logo.png" alt=""></a> <div class="headerDivider"></div>
+    <div id="logo"><a href="https://uniqueidentifiers.herokuapp.com/"><img src="/footer_logo.png" alt=""></a> <div class="headerDivider"></div>
           <tag>Viz APEX<br>System</tag>
     </div>  
   </div>
@@ -21,6 +21,9 @@
   	<% if logged_in? %>
 		<h1>Hello, <%= @current_user.firstname %></h1>
 		<%= link_to "Log out", logout_path, method: "delete" %>
+	<% else %>
+		<h1>Hello, Guest</h1>
+		<%= link_to "Log in", login_path %>
 	<% end %>
 	</div>
   </div>
