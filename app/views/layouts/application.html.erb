@@ -8,7 +8,23 @@
 </head>
 <body>
 
-<%= yield %>
+<div id="page" class="container">
+  <div id="header">
+    <div id="logo"><a href="http://www.tamu.edu/"><img src="/footer_logo.png" alt=""></a> <div class="headerDivider"></div>
+          <tag>Uniqueidentifiers<br>System</tag>
+    </div>  
+  </div>
 
+
+  <div id="menu-top">
+      <div style="font-size: 20px;padding:10px;">Howdy, username</div>
+      <a href="#">Logout</a>
+  </div>
+<div class="span-19">
+    <div id="content">
+<%= yield %>
+    </div>
+</div>
+</div>
 </body>
 </html>

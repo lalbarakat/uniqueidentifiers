@@ -1,8 +1,43 @@
+<div id="admin">
+
 <h1>Dashboard</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
-<li><%=link_to "User Management", :controller =>:users, :action => :index %></li>
-<li><%=link_to "Manage Inventory", :controller =>:items, :action => :index %></li>
-<li><%=link_to "Generate Reports", :controller =>:students, :action => :index %></li>
+
+<div class="tasks">
+ <img width="50" src="Tasks.png">
+  <tag>Tasks</tag>
+<ul>
 <li><%=link_to "Check Out", :controller =>:checkouts, :action => :index %></li>
 <li><%=link_to "Check In", :controller =>:checkouts, :action => :index %></li>
+</ul>
+</div>
 
+
+
+
+<div class="schedule">
+<img width="50" src="Schedule.png">
+<tag>User Management</tag>
+<ul>
+<li><%=link_to "User Management", :controller =>:users, :action => :index %></li>
+</ul>
+</div>
+
+
+<div class="blackout">
+<img width="50" src="Blackout.png">
+<tag>Manage Inventory</tag>
+<ul>
+<li><%=link_to "Manage Inventory", :controller =>:items, :action => :index %></li>
+</ul>
+</div>
+
+<div class="reports">
+ <img width="50" src="Report.png">
+  <tag>Reports</tag>
+<ul>
+<li><%=link_to "Generate Reports", :controller =>:students, :action => :index %></li>
+</ul>
+</div>
+
+
+</div>
