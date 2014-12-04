@@ -117,6 +117,7 @@ function read(index, a)
     document.getElementById("result").innerHTML=html;
     */
     document.getElementById('item_tab').rows[index].cells[0].children[2].value = a;
+    document.getElementById('scanned').play();
     close_webcam();
 }	
 
