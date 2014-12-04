@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141123161820) do
+ActiveRecord::Schema.define(:version => 20141203073203) do
 
   create_table "checkouts", :force => true do |t|
-    t.string   "student_id"
+    t.integer  "student_id"
     t.string   "item_id"
     t.datetime "startdate"
     t.datetime "enddate"
@@ -45,8 +45,11 @@ ActiveRecord::Schema.define(:version => 20141123161820) do
     t.string   "username"
     t.string   "password"
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "password_digest"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end

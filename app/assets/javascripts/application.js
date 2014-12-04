@@ -12,4 +12,25 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require jquery-ui/autocomplete
+//= require jquery-ui/tooltip
+//= require jquery-ui/button
+//= require grid
+//= require version
+//= require detector
+//= require formatinf
+//= require errorlevel
+//= require bitmat
+//= require datablock
+//= require bmparser
+//= require datamask
+//= require rsdecoder
+//= require gf256poly
+//= require gf256
+//= require decoder
+//= require qrcode
+//= require findpat
+//= require alignpat
+//= require databr
+//= require webqr
+//= require_self

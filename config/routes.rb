@@ -1,4 +1,6 @@
 Uniqueidentifiers::Application.routes.draw do
+  get "sessions/new"
+
   get "welcome/index"
 
   resources :items
@@ -11,6 +13,10 @@ Uniqueidentifiers::Application.routes.draw do
 
 
   resources :users
+  
+  get    'login'   => 'sessions#new'
+  post   'login'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
 
 
   # The priority is based upon order of creation:
