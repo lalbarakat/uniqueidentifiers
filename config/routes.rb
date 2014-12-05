@@ -1,4 +1,6 @@
 Uniqueidentifiers::Application.routes.draw do
+  get "scan/new"
+
   get "sessions/new"
 
   get "welcome/index"
@@ -7,7 +9,7 @@ Uniqueidentifiers::Application.routes.draw do
 
 
   resources :checkouts
-
+  post 'review' => 'checkouts#review'
 
   resources :students
 
@@ -17,6 +19,9 @@ Uniqueidentifiers::Application.routes.draw do
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
+  
+  post 'scan' => 'scan#add_items'
+ 
 
 
   # The priority is based upon order of creation:

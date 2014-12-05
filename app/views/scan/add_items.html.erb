@@ -1,0 +1,112 @@
+<script>
+var empty_table = <%= @items.present? && @items.length > 0 ? false : true %>;
+
+function add_items_on_load() {
+	// Prevent the fake datetime from actually being submitted
+	$('#datetime').children('select').each(function() { $(this).attr('name', ''); });
+}
+
+function add_row(data) {
+	var ref = document.getElementById('item_tab');
+	var input = document.createElement('input');
+	var label = document.createElement('label');
+	
+	var $datetime = $('#datetime').clone(); // Clone the hidden datetime
+	
+	// Do some jquery magic to fix id's of datetime's selects
+	$datetime.children('select').each(function() {
+		var curr_id = $(this).attr('id');
+		var id_parts = curr_id.split('_');
+		$(this).attr('id', 'checkout_enddate' + ref.rows.length + '_' + id_parts[2]);
+		$(this).attr('name', 'checkout[enddate(' + id_parts[2] + ')][]');
+	});
+	
+	if(empty_table) {
+		ref.deleteRow(0);	// Delete the "empty table" text
+		empty_table = false;
+	}
+	
+	input.id = 'checkout_item_id' + ref.rows.length;
+	input.name = 'items[name]';
+	input.type = 'text';
+	input.size = 30;
+	input.setAttribute('value', data);
+	label.htmlFor = input.id;
+	label.innerHTML = 'Item';
+	ref.insertRow(ref.rows.length); 
+	ref.rows[ref.rows.length-1].innerHTML = '<td>' + label.outerHTML + '</td>' + '<td>' + input.outerHTML +'</td>' + '<td>' + $datetime[0].innerHTML + '</td>';
+}
+
+$(document).ready(function() {
+	add_items_on_load()
+});
+</script>
+
+<h1>Scan Items</h1>
+
+<%= render 'qr' %>
+
+<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "review"} do |f| %>
+  <% if @checkout.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
+
+      <ul>
+      <% @checkout.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= f.fields_for :student, builder: ComboboxFormBuilder do |s| %>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:firstname, :value => @checkout.student.present? ? @checkout.student.firstname : "", :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:lastname, :value =>@checkout.student.present? ? @checkout.student.lastname : "", :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:uin, :value => @checkout.student.present? ? @checkout.student.uin : "", :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:email, :value => @checkout.student.present? ? @checkout.student.email : "", :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:phonenumber, :value => @checkout.student.present? ? @checkout.student.phonenumber : "", :class => "student_info")%>
+	  </div>
+  <% end %>
+  <div class="field">
+  <table id="item_tab">
+    <div id="datetime" style="display:none">
+    	<%= f.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+    </div>
+    <% if @items.present? %>
+    	<% @items.each do |item| %>
+    		<tr>
+      			<td>
+        			<%= f.label :item_id, "Item" %><br />
+        			<%= f.text_field :item_id, :readonly => true %>
+        			<!--<button type="button" onclick="load(this.parentNode.parentNode.rowIndex);">Scan</button>-->
+      			</td>
+      			<!--<td>
+        			<%= f.label :startdate, "Start Date" %><br />
+        			<%= f.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+      			</td>-->
+      			<td>
+        			<%= f.label :enddate, "End Date"%><br />
+        			<%= f.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+      			</td>
+    		</tr>
+    	<% end %>
+    <% else %>
+    	<tr><td><p>No items have been scanned!</p><td></tr>
+    <% end %>
+    <!--<tr><td><button type="button" onclick="add_row()">Add Item</button></td></tr>-->
+  </table>
+  </div>
+  <div class="actions">
+    <%= f.submit "Finish"%>
+  </div>
+  <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
+<% end %>

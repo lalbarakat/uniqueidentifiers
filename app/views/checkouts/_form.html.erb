@@ -1,12 +1,6 @@
 <script>
 var item_row = "";
 
-function add_row() {
-	var ref = document.getElementById('item_tab'); 
-	ref.insertRow(ref.rows.length-1); 
-	ref.rows[ref.rows.length-2].innerHTML = item_row;
-}
-
 function find_index(name, value) {
 	var list_title = '#' + name + '_list';
 	var list = $(list_title)[0];
@@ -19,26 +13,10 @@ function find_index(name, value) {
 	return -1;
 }
 
-function gotSources(sourceInfos) {
-  for (var i = 0; i != sourceInfos.length; ++i) {
-    var sourceInfo = sourceInfos[i];
-    var option = document.createElement("option");
-    option.value = sourceInfo.id;
-    //if (sourceInfo.kind === 'audio') {
-    //  option.text = sourceInfo.label || 'microphone ' + (audioSelect.length + 1);
-    //  audioSelect.appendChild(option);
-    //} else 
-    if (sourceInfo.kind === 'video') {
-      option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
-      videoSelect.appendChild(option);
-    } else {
-      console.log('Some other kind of source: ', sourceInfo);
-    }
-  }
-}
-
 $( document ).ready(function() {
-    item_row = $('#item_tab tr')[0].innerHTML;
+    if( $('#item_tab tr')[0] != undefined) {
+    	item_row = $('#item_tab tr')[0].innerHTML;
+    }
     $(".student_info").change(function () {
     	var index = find_index($(this).attr('id'), this.value);
     	$(".student_info").each(function () {
@@ -47,15 +25,10 @@ $( document ).ready(function() {
     		$(this).val($(list_title + ' option').eq(index).val());
 	});
     });
-    if (typeof MediaStreamTrack === 'undefined'){
-	  alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
-	} else {
-	  MediaStreamTrack.getSources(gotSources);
-	}
 });
 </script>
 
-<%= form_for @checkout do |f| %>
+<%= form_for @checkout, :url => {:controller => 'scan', :action => "add_items"} do |f| %>
   <% if @checkout.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
@@ -90,28 +63,9 @@ $( document ).ready(function() {
 	    <%= s.combobox_tag(:phonenumber, options_for_select(@phones), :list_id => "phonenumber_list", :value => @checkout.student.present? ? @checkout.student.phonenumber : "", :class => "student_info")%>
 	  </div>
   <% end %>
-  <div class="field">
-  <table id="item_tab">
-    <tr>
-      <td>
-        <%= f.label :item_id, "Item" %><br />
-        <%= f.text_field :item_id, :readonly => true %>
-        <button type="button" onclick="load(this.parentNode.parentNode.rowIndex);">Scan</button>
-      </td>
-      <!--<td>
-        <%= f.label :startdate, "Start Date" %><br />
-        <%= f.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-      </td>-->
-      <td>
-        <%= f.label :enddate, "End Date"%><br />
-        <%= f.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-      </td>
-    </tr>
-    <tr><td><button type="button" onclick="add_row()">Add Item</button></td></tr>
-  </table>
-  </div>
+  
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Continue"%>
   </div>
   <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
 <% end %>
