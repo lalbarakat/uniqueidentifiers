@@ -4,6 +4,16 @@ require File.expand_path('../application', __FILE__)
 # Initialize the rails application
 Uniqueidentifiers::Application.initialize!
 
+ActionMailer::Base.smtp_settings = {
+  :user_name => 'ejn8411',
+  :password => 'dWalk606',
+  :domain => 'https://uniqueidentifiers.herokuapp.com/',
+  :address => 'smtp.sendgrid.net',
+  :port => 587,
+  :authentication => :plain,
+  :enable_starttls_auto => true
+}
+
 # enable detailed CAS logging
 # cas_logger = CASClient::Logger.new(::Rails.root+'/log/cas.log')
 # cas_logger.level = Logger::DEBUG
