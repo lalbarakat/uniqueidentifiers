@@ -25,6 +25,7 @@ class CheckoutsController < AuthenticatedController
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
+    @checkout.build_student
     @students = Student.all()
     @uins = @students.collect { |student| student.uin }
     @firstnames = @students.collect { |student| student.firstname }
@@ -62,10 +63,10 @@ class CheckoutsController < AuthenticatedController
   # POST /checkouts
   # POST /checkouts.json
   def create
-    @student = Student.find_by_uin(params[:uin]) || 
-    		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+    #@student = Student.find_by_uin(params[:uin]) || 
+    #		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
     @checkout = Checkout.new(params[:checkout])
-    @checkout.student = @student
+    #@checkout.student = @student
 
     respond_to do |format|
       if @checkout.save

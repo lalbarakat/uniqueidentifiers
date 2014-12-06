@@ -1,7 +1,66 @@
 <h1>Review Checkout</h1>
 
-<%= debug params %>
-REVIEW
+<%= form_for @checkout do |f| %>
+  <% if @checkout.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
 
-<%= link_to 'Show', @checkout %> |
+      <ul>
+      <% @checkout.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= f.fields_for :student do |s| %>
+	  <div class="field">
+	    <%= s.label :firstname, 'First Name' %><br />
+	    <%= s.text_field(:firstname, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :lastname, 'Last Name' %><br />
+	    <%= s.text_field(:lastname, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :uin, 'UIN' %><br />
+	    <%= s.text_field(:uin, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :email, 'Email' %><br />
+	    <%= s.text_field(:email, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= s.label :phonenumber, 'Phone Number' %><br />
+	    <%= s.text_field(:phonenumber, :class => "student_info")%>
+	  </div>
+  <% end %>
+  
+  <div class="field">
+  <table id="item_tab">
+    <%= f.fields_for :checked_out_items do |coi| %>
+    	<tr>
+	    	<%= coi.fields_for :item do |i| %>
+		  <td>
+		    <%= i.label :name, "Item" %>
+		    <%= i.text_field :name, :readonly => true %>
+		  </td>
+		<% end %>
+		  <td style="display:none">
+		    <%= coi.label :startdate, "Start Date"%><br />
+		    <%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+		  </td>
+		  <td>
+		    <%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+		  </td>
+	</tr>
+    <% end %>
+  </table>
+  </div>
+  <div class="actions">
+    <%= f.submit "Finish"%>
+  </div>
+  <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
+<% end %>
+
 <%= link_to 'Back', checkouts_path %>

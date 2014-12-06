@@ -9,7 +9,7 @@ Uniqueidentifiers::Application.routes.draw do
 
 
   resources :checkouts
-  post 'review' => 'checkouts#review'
+  post 'checkouts/review' => 'checkouts#review'
 
   resources :students
 
