@@ -6,11 +6,30 @@ function add_items_on_load() {
 	$('#item_row').find('select, input').each(function() { $(this).attr('name', ''); });
 }
 
+function get_item_data(item_id) {
+	var jsonItem = {};
+	$.ajax({
+	  url: '<%= items_path %>/' + item_id + '.json',
+	  dataType: 'json',
+	  async: false,
+	  success: function(data) {
+	    jsonItem = data;
+	  }
+	});
+	/*$.getJSON( "<%= items_path %>/" + item_id + ".json", function( data ) {
+		jsonItem = data;
+	});*/
+	return jsonItem;
+}
+
 function add_row(data) {
+	var item_data = get_item_data(data);
+
 	var ref = document.getElementById('item_tab');
 	var $datetime = $('#item_row').clone(); // Clone the hidden row
 	
-	$datetime.find('input').attr('value', data);
+	$datetime.find('input.item_name').attr('value', item_data.name);
+	$datetime.find('input.item_id').attr('value', data);
 	// Do some jquery magic to fix id's of datetime's selects
 	$datetime.find('select').each(function() {
 		var curr_id = $(this).attr('id');
@@ -27,7 +46,7 @@ function add_row(data) {
 		ref.deleteRow(0);	// Delete the "empty table" text
 	}
 	
-	item_count += 1;
+	item_count++;
 	ref.insertRow(ref.rows.length); 
 	ref.rows[ref.rows.length-1].innerHTML = $datetime.html();
 }
@@ -85,7 +104,8 @@ $(document).ready(function() {
 	    	<%= coi.fields_for :item do |i| %>
 		  <td>
 		    <%= i.label :name, "Item" %>
-		    <%= i.text_field :name, :readonly => true %>
+		    <%= i.text_field :id, :readonly => true, :style => "display:none", :class => "item_id" %>
+		    <%= i.text_field :name, :readonly => true, :class => "item_name" %>
 		  </td>
 		<% end %>
 		  <td style="display:none">
