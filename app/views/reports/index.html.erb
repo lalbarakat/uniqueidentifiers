@@ -1,0 +1,32 @@
+<div id="admin">
+	<h1>Generate Reports</h1>
+
+	<div class="tasks">
+		<%=link_to reports_all_path, :class => "major_link" do %>
+			<img width="50" src="Tasks.png">
+			<tag>All Checked Out Items</tag>
+		<% end %>
+	</div>
+	
+	<div class="tasks">
+		<%=link_to reports_path + '/checkoutdate/', :class => "major_link" do %>
+			<img width="50" src="Tasks.png">
+			<tag>By Checkout Date</tag>
+		<% end %>
+	</div>
+	
+	<div class="tasks">
+		<%=link_to reports_path + '/returndate/', :class => "major_link" do %>
+			<img width="50" src="Tasks.png">
+			<tag>By Return Date</tag>
+		<% end %>
+	</div>
+	
+	<div class="tasks">
+		<%=link_to reports_path + '/student/', :class => "major_link" do %>
+			<img width="50" src="Tasks.png">
+			<tag>By Student</tag>
+		<% end %>
+	</div>
+</div>
+

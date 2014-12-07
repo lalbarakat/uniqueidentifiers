@@ -339,7 +339,10 @@ div.search-form
 
 }
 
-
+.major_link {
+	text-decoration: none;
+	color: #222;
+}
 
 #admin div tag{
 	font-size:28px;
