@@ -3,7 +3,7 @@ var item_count = <%= @items.present? ? @items.length : 0 %>;
 
 function add_items_on_load() {
 	// Prevent the fake row from actually being submitted
-	$('#item_row').find('select, input').each(function() { $(this).attr('name', ''); });
+	$('#item_row').find('select, input.item_name').each(function() { $(this).attr('name', ''); });
 }
 
 function get_item_data(item_id) {
@@ -37,9 +37,13 @@ function add_row(data) {
 		$(this).attr('id', 'checkout_checked_out_items_attributes_' + item_count + '_startdate_' + id_parts[7]);
 		$(this).attr('name', 'checkout[checked_out_items_attributes][' + item_count + '][startdate(' + id_parts[7] + ')]');
 	});
-	$datetime.find('input').each(function() {
+	$datetime.find('input.item_name').each(function() {
 		$(this).attr('id', 'checkout_checked_out_items_attributes_' + item_count + '_item_attributes_name');
 		$(this).attr('name', 'checkout[checked_out_items_attributes][' + item_count + '][item_attributes][name]');
+	});
+	$datetime.find('input.item_id').each(function() {
+		$(this).attr('id', 'checkout_checked_out_items_attributes_' + item_count + '_item_attributes_id');
+		$(this).attr('name', 'checkout[checked_out_items_attributes][' + item_count + '][item_attributes][id]');
 	});
 	
 	if(item_count == 0) {
@@ -104,7 +108,7 @@ $(document).ready(function() {
 	    	<%= coi.fields_for :item do |i| %>
 		  <td>
 		    <%= i.label :name, "Item" %>
-		    <%= i.text_field :id, :readonly => true, :style => "display:none", :class => "item_id" %>
+		    <input name="checkout[checked_out_items_attributes][0][item_attributes][id]" class="item_id" type="text" readonly></input>
 		    <%= i.text_field :name, :readonly => true, :class => "item_name" %>
 		  </td>
 		<% end %>
