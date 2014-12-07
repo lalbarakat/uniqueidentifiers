@@ -20,7 +20,7 @@
 	    	<th>Start Date</th>
 	    	<th>End Date</th>
     	</tr>
-		<% checkout.checked_out_items.each do |coi| %>
+		<% checkout.checkedout_items.each do |coi| %>
 			<tr>
 	   		<td><%= coi.item.name if coi.item %></td>
 	   		<td><%= coi.startdate %></td>
