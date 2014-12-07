@@ -53,7 +53,20 @@ class CheckoutsController < AuthenticatedController
   
   # POST /review
   def review
+    @items = []
+    params[:checkout][:checkedout_items_attributes].each do |item_arr|
+    	item = Item.find_by_id(item_arr[1][:item_id])
+    	@items << item
+    end
     @checkout = Checkout.new(params[:checkout])
+  end
+  
+  # POST /add_items
+  def add_items
+  	@student = Student.find_by_uin(params[:uin]) || 
+    		Student.new(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+	@checkout = Checkout.new(params[:checkout])
+	@checkout.student = @student
   end
 
   # POST /checkouts

@@ -38,22 +38,25 @@
   
   <div class="field">
   <table id="item_tab">
-    <%= f.fields_for :checked_out_items do |coi| %>
-    	<tr>
-	    	<%= coi.fields_for :item do |i| %>
-		  <td>
-		    <%= i.label :name, "Item" %>
-		    <input type="text" id="" readonly></input>
-		  </td>
-		<% end %>
-		  <td style="display:none">
-		    <%= coi.label :startdate, "Start Date"%><br />
-		    <%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-		  </td>
-		  <td>
-		    <%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-		  </td>
-	</tr>
+    <% index = 0 %>
+    <%= f.fields_for :checkedout_items do |coi| %>
+    		
+    			<tr>
+			    	
+				  <td>
+				    <label for="name">Name</label>
+				    <input type="text" value="<%= @items[index].name %>" readonly></input>
+				  </td>
+				
+				  <td style="display:none">
+				    <%= coi.label :startdate, "Start Date"%><br />
+				    <%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+				  </td>
+				  <td>
+				    <%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+				  </td>
+			</tr>
+	<% index += 1 %>
     <% end %>
   </table>
   </div>

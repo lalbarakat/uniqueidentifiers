@@ -8,7 +8,7 @@ Uniqueidentifiers::Application.routes.draw do
   resources :items
 
   resources :checkouts
-  post 'scan' => 'scan#add_items'
+  post 'checkouts/add_items' => 'checkouts#add_items'
   post 'checkouts/review' => 'checkouts#review'
 
   resources :students

@@ -1,2 +1,64 @@
-<div id="outdiv" style="display:none" width="320px" height="240px"></div>
-<canvas id="qr-canvas" width="900px" height="600px"></canvas>
+<script>
+var videoSelect = {};
+var videoElement = {};
+
+function gotSources(sourceInfos) {
+	for (var i = 0; i != sourceInfos.length; ++i) {
+		var sourceInfo = sourceInfos[i];
+		var option = document.createElement("option");
+		option.value = sourceInfo.id;
+
+		if (sourceInfo.kind === 'video') {
+			option.text = sourceInfo.label || 'Camera #' + (videoSelect.length + 1);
+			videoSelect.appendChild(option);
+		} else {
+			console.log('Some other kind of source: ', sourceInfo);
+		}
+	}
+}
+
+function start(){
+	if (!!window.stream) {
+		videoElement.src = null;
+		window.stream.stop();
+	}
+	var videoSource = videoSelect.value;
+	var constraints = {
+		video: {
+			optional: [{sourceId: videoSource}]
+		}
+	};
+	setWebcam(constraints);
+	//navigator.webkitGetUserMedia(constraints, success, error);
+}
+
+$(document).ready(function() {
+	if(typeof MediaStreamTrack.getSources == 'undefined') {
+		videoSelect = document.querySelector("select#camera_sel");
+		videoSelect.style.display = "none";
+		load();
+		return;
+	}
+
+	videoSelect = document.querySelector("select#camera_sel");
+	videoElement = document.querySelector("video");
+
+	if (typeof MediaStreamTrack === 'undefined'){
+		alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
+	} else {
+		MediaStreamTrack.getSources(gotSources);
+	}
+
+	videoSelect.onchange = start;
+	load();
+});
+</script>
+
+<div id="options_panel">
+	<select id="camera_sel" style="margin-bottom:10px"></select>
+</div>
+<div id="video_panel">
+
+</div>
+<div id="outdiv" width="320px" height="240px"></div>
+<canvas id="qr-canvas" style="display:none" width="800px" height="600px"></canvas>

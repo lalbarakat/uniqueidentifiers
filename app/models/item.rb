@@ -1,4 +1,6 @@
 class Item < ActiveRecord::Base
-  belongs_to :checked_out_item, :autosave => true
-  attr_accessible :name, :checked_out_item_id
+  attr_accessible :name, :category
+  
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :category, presence: true, length: { maximum: 50 }
 end

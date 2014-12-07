@@ -28,7 +28,7 @@ $( document ).ready(function() {
 });
 </script>
 
-<%= form_for @checkout, :url => {:controller => 'scan', :action => "add_items"} do |f| %>
+<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "add_items"} do |f| %>
   <% if @checkout.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>

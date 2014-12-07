@@ -13,25 +13,27 @@
 
 ActiveRecord::Schema.define(:version => 20141206101444) do
 
-  create_table "checked_out_items", :force => true do |t|
+  create_table "checkedout_items", :force => true do |t|
+    t.integer  "checkout_id"
+    t.integer  "item_id"
     t.datetime "startdate"
     t.datetime "enddate"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.integer  "checkout_id"
   end
 
   create_table "checkouts", :force => true do |t|
     t.integer  "student_id"
+    t.string   "status"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "items", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-    t.integer  "checked_out_item_id"
+    t.string   "category"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "students", :force => true do |t|
@@ -40,7 +42,6 @@ ActiveRecord::Schema.define(:version => 20141206101444) do
     t.string   "lastname"
     t.string   "email"
     t.string   "phonenumber"
-    t.string   "status"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -49,11 +50,10 @@ ActiveRecord::Schema.define(:version => 20141206101444) do
     t.string   "firstname"
     t.string   "lastname"
     t.string   "username"
-    t.string   "password"
     t.string   "email"
+    t.string   "password_digest"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.string   "password_digest"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
