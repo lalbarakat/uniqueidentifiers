@@ -12,7 +12,11 @@
 		<%=link_to reports_path + '/checkoutdate/', :class => "major_link" do %>
 			<img width="50" src="Tasks.png">
 			<tag>By Checkout Date</tag>
-		<% end %>
+		<% end %></br>
+		<div class="filter">
+			<%= label("checkoutdate", "report", "Checkout Date") %></br>
+		 	<%= date_select("checkoutdate", "report") %>
+		</div>
 	</div>
 	
 	<div class="tasks">
@@ -20,6 +24,10 @@
 			<img width="50" src="Tasks.png">
 			<tag>By Return Date</tag>
 		<% end %>
+		<div class="filter">
+			<%= label("returndate", "report", "Return Date") %></br>
+			<%= date_select("returndate", "report") %>
+		</div>
 	</div>
 	
 	<div class="tasks">
@@ -27,6 +35,10 @@
 			<img width="50" src="Tasks.png">
 			<tag>By Student</tag>
 		<% end %>
+		<div class="filter">
+			<%= label("studentid", "report", "Student UIN") %></br>
+			<%= text_field("studentid", "report") %>
+		</div>
 	</div>
 </div>
 

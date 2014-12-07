@@ -8,7 +8,7 @@
 
 <% @checkouts.each do |checkout| %>
   <tr>
-    <td><%= ( checkout.student.firstname + ' ' + checkout.student.lastname ) if checkout.student && checkout.student.firstname && checkout.student.lastname %></td>
+    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname if checkout.student && checkout.student.firstname && checkout.student.lastname %></td>
     <td><%= link_to 'Show', checkout %></td>
     <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
     <td><%= link_to 'Destroy', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
