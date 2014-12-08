@@ -6,5 +6,4 @@ class CheckedoutItem < ActiveRecord::Base
   
   validates :startdate, presence: true
   validates :enddate, presence: true
-  validates :enddate, presence: true
 end

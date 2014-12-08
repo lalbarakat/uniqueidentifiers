@@ -1,6 +1,8 @@
 <h1>Review Checkout</h1>
 
-<%= form_for @checkout do |f| %>
+<%= debug @checkout.checkedout_items[0] %>
+
+<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "create"} do |f| %>
   <% if @checkout.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
@@ -30,7 +32,6 @@
 	    <%= s.label :email, 'Email' %><br />
 	    <%= s.text_field(:email, :class => "student_info")%>
 	  </div>
-	  <div class="field">
 	    <%= s.label :phonenumber, 'Phone Number' %><br />
 	    <%= s.text_field(:phonenumber, :class => "student_info")%>
 	  </div>
@@ -38,25 +39,24 @@
   
   <div class="field">
   <table id="item_tab">
-    <% index = 0 %>
     <%= f.fields_for :checkedout_items do |coi| %>
-    		
-    			<tr>
-			    	
-				  <td>
-				    <label for="name">Name</label>
-				    <input type="text" value="<%= @items[index].name %>" readonly></input>
-				  </td>
-				
-				  <td style="display:none">
-				    <%= coi.label :startdate, "Start Date"%><br />
-				    <%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-				  </td>
-				  <td>
-				    <%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-				  </td>
-			</tr>
-	<% index += 1 %>
+	<tr>
+	  <div class="field">
+	  	<%= coi.fields_for :item do |item| %>
+		  <td>
+		    <%= item.label :name %>
+		    <%= item.text_field :name %>
+		    <%= item.text_field :id %>
+		  </td>
+		<% end %>
+		  <td style="display:none">
+		    <%= coi.label :startdate, "Start Date"%><br />
+		    <%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+		  </td>
+		  <td>
+		    <%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+		  </td>
+	</tr>
     <% end %>
   </table>
   </div>
