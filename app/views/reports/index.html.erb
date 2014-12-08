@@ -1,0 +1,74 @@
+<script>
+function pad(n, width, z) {
+	z = z || '0';
+	n = n + '';
+	return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+
+function do_by_return_date() {
+	var $month = pad($('#returndate_report_2i').val(), 2);
+	var $day = pad($('#returndate_report_3i').val(), 2);
+	var $year = $('#returndate_report_1i').val();
+	
+	document.location.href = '<%= reports_path %>' + '/returndate/' + $month + '/' + $day + '/' + $year;
+}
+
+function do_by_checkout_date() {
+	var $month = pad($('#checkoutdate_report_2i').val(), 2);
+	var $day = pad($('#checkoutdate_report_3i').val(), 2);
+	var $year = $('#checkoutdate_report_1i').val();
+	
+	pad($month, 2);
+	pad($day, 2);
+	
+	document.location.href = '<%= reports_path %>' + '/checkoutdate/' + $month + '/' + $day + '/' + $year;
+}
+
+function do_by_student() {
+	var $student = $('#studentid_report').val();
+	
+	document.location.href = '<%= reports_path %>' + '/student/' + $student;
+}
+</script>
+
+<div id="admin">
+	<h1>Generate Reports</h1>
+
+	<div class="tasks">
+		<%=link_to reports_all_path, :class => "major_link" do %>
+			<img width="50" src="Tasks.png">
+			<tag>All Checked Out Items</tag>
+		<% end %>
+	</div>
+	
+	<div class="tasks">
+		<img width="50" src="Tasks.png">
+		<tag>By Checkout Date</tag>
+		<div class="filter">
+			<%= label("checkoutdate", "report", "Checkout Date") %>
+		 	<%= date_select("checkoutdate", "report") %>
+		 	<%= button_to_function "Go", "do_by_checkout_date()", class: "ok" %>
+		</div>
+	</div>
+	
+	<div class="tasks">
+		<img width="50" src="Tasks.png">
+		<tag>By Return Date</tag>
+		<div class="filter">
+			<%= label "returndate", "report", "Return Date" %></br>
+			<%= date_select "returndate", "report" %>
+			<%= button_to_function "Go", "do_by_return_date()", class: "ok" %>
+		</div>
+	</div>
+	
+	<div class="tasks">
+		<img width="50" src="Tasks.png">
+		<tag>By Student</tag>
+		<div class="filter">
+			<%= label("studentid", "report", "Student UIN") %></br>
+			<%= text_field("studentid", "report") %>
+			<%= button_to_function "Go", "do_by_student()", class: "ok" %>
+		</div>
+	</div>
+</div>
+

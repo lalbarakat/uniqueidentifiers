@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <p>
   <b>Student:</b>
   <%= @checkout.student.firstname + ' ' + @checkout.student.lastname %>
@@ -7,19 +6,8 @@
 
 <p>
   <b>Item:</b>
-  <%= @checkout.item_id %>
+  <%= @checkout %>
 </p>
-
-<p>
-  <b>Startdate:</b>
-  <%= @checkout.startdate %>
-</p>
-
-<p>
-  <b>Enddate:</b>
-  <%= @checkout.enddate %>
-</p>
-
 
 <%= link_to 'Edit', edit_checkout_path(@checkout) %> |
 <%= link_to 'Back', checkouts_path %>

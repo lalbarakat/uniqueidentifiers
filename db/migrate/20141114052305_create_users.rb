@@ -1,13 +1,18 @@
 class CreateUsers < ActiveRecord::Migration
-  def change
+  def up
     create_table :users do |t|
       t.string :firstname
       t.string :lastname
       t.string :username
-      t.string :password
       t.string :email
+      t.string :password_digest
 
       t.timestamps
     end
+    add_index :users, :email, unique: true
+  end
+  
+  def down
+    drop_table :users
   end
 end

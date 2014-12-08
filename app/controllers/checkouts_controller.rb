@@ -25,7 +25,8 @@ class CheckoutsController < AuthenticatedController
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
-    @students = Student.all()
+    @checkout.build_student
+    @students = Student.all
     @uins = @students.collect { |student| student.uin }
     @firstnames = @students.collect { |student| student.firstname }
     @lastnames = @students.collect { |student| student.lastname }
@@ -42,24 +43,50 @@ class CheckoutsController < AuthenticatedController
   def edit
     @checkout = Checkout.find(params[:id])
     @student = @checkout.student
-    @students = Student.all()
+    @students = Student.all
     @uins = @students.collect { |student| student.uin }
     @firstnames = @students.collect { |student| student.firstname }
     @lastnames = @students.collect { |student| student.lastname }
     @emails = @students.collect { |student| student.email }
     @phones = @students.collect { |student| student.phonenumber }
   end
+  
+  # POST /review
+  def review
+    @checkout = Checkout.new(params[:checkout])
+  end
+  
+  # POST /add_items
+  def add_items
+  	@student = Student.find_by_uin(params[:uin]) || 
+    		Student.new(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+    		
+    	if !@student.valid?
+		@checkout = Checkout.new
+	        @checkout.student = @student
+	        @students = Student.all
+	        @uins = @students.collect { |student| student.uin }
+	        @firstnames = @students.collect { |student| student.firstname }
+	        @lastnames = @students.collect { |student| student.lastname }
+	        @emails = @students.collect { |student| student.email }
+	        @phones = @students.collect { |student| student.phonenumber }
+    		render action: "new"
+    	end
+	@checkout = Checkout.new(params[:checkout])
+	@checkout.student = @student
+  end
 
   # POST /checkouts
   # POST /checkouts.json
   def create
-    @student = Student.find_by_uin(params[:uin]) || 
-    		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+    #@student = Student.find_by_uin(params[:uin]) || 
+    #		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+    asdf adsf
     @checkout = Checkout.new(params[:checkout])
-    @checkout.student = @student
+    #@checkout.student = @student
 
     respond_to do |format|
-      if @checkout.save
+      if @checkout.save!
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else

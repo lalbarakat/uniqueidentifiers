@@ -1,0 +1,37 @@
+
+<h1>Checkouts on checkout date</h1>
+
+<table>
+  <tr>
+    <th>Student</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @checkouts.each do |checkout| %>
+  <tr>
+    <td><%= ( checkout.student.firstname + ' ' + checkout.student.lastname ) if checkout.student && checkout.student.firstname && checkout.student.lastname %></td>
+    <td><%= link_to 'Show', checkout %></td>
+    <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
+    <td><%= link_to 'Destroy', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+  <tr>
+    <table>
+    	<tr>
+	    	<th>Item</th>
+	    	<th>Start Date</th>
+	    	<th>End Date</th>
+    	</tr>
+		<% checkout.checked_out_items.each do |coi| %>
+			<tr>
+	   		<td><%= coi.item.name if coi.item %></td>
+	   		<td><%= coi.startdate %></td>
+	   		<td><%= coi.enddate %></td>
+	   		</tr>
+		<% end %>
+    </table>
+  </tr>
+<% end %>
+</table>
+

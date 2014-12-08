@@ -1,13 +1,15 @@
 Uniqueidentifiers::Application.routes.draw do
+  get "scan/new"
+
   get "sessions/new"
 
   get "welcome/index"
 
   resources :items
 
-
   resources :checkouts
-
+  post 'checkouts/add_items' => 'checkouts#add_items'
+  post 'checkouts/review' => 'checkouts#review'
 
   resources :students
 
@@ -17,7 +19,12 @@ Uniqueidentifiers::Application.routes.draw do
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
-
+ 
+  get 'reports' => 'reports#index'
+  get 'reports/all' => 'reports#all'
+  get 'reports/checkoutdate/:month/:day/:year' => 'reports#by_checkout_date'
+  get 'reports/returndate/:month/:day/:year' => 'reports#by_return_date'
+  get 'reports/student/:id' => 'reports#by_student'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

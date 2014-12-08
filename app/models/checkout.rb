@@ -1,4 +1,7 @@
 class Checkout < ActiveRecord::Base
-  belongs_to :student
-  attr_accessible :enddate, :item_id, :startdate, :student_id
+  has_many :checkedout_items
+  belongs_to :student, :autosave => true
+  attr_accessible :student_id, :status, :checkedout_items_attributes, :student_attributes, :status
+  accepts_nested_attributes_for :checkedout_items
+  accepts_nested_attributes_for :student
 end
