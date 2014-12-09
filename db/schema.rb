@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20141206101444) do
     t.integer  "item_id"
     t.datetime "startdate"
     t.datetime "enddate"
+    t.integer  "status"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

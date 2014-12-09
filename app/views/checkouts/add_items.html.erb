@@ -62,7 +62,7 @@ $(document).ready(function() {
 
 <%= render 'qr' %>
 
-<%= form_tag 'review' do %>
+<%= form_tag 'add_dates' do %>
   <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
 	  <div class="field" style="display:none">
 	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
@@ -82,8 +82,8 @@ $(document).ready(function() {
   <% end %>
   <div class="field">
   <table id="item_tab">
-  	<%= text_field_tag :item_id %>
-  	<%= datetime_select :enddate, "Item", ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+  	<%= text_field_tag "item_ids[]" %>
+  	<%= text_field_tag "item_ids[]" %>
   </table>
   </div>
   <div class="actions">

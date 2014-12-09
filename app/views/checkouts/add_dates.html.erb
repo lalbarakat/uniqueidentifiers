@@ -1,0 +1,33 @@
+<%= form_tag 'review' do %>
+  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:lastname, :value => @student.lastname, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:uin, :value => @student.uin, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:email, :value => @student.email, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
+	  </div>
+  <% end %>
+  <%= fields_for :checkedout_items do |coi| %>
+	  <div class="field">
+		  <table id="item_tab">
+		  	<tr>
+		  	<%= coi.text_field :id %>
+		  	<%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+		  	</tr>
+		  </table>
+	  </div>
+  <% end %>
+  <div class="actions">
+    <%= submit_tag "Finish"%>
+  </div>
+  <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
+<% end %>

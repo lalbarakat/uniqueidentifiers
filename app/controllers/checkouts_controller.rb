@@ -52,23 +52,20 @@ class CheckoutsController < AuthenticatedController
   
   # POST /review
   def review
+  asdf
+    @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
+    @items = Item.find_all_by_id(params[:item_ids])
+    @item = Item.where(:id => params[:item_id]).first
+  end
+  
+  # POST /add_dates
+  def add_dates
     @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
     @item = Item.where(:id => params[:item_id]).first
-    @checkedout_item = CheckedoutItem.new(:enddate => params[:enddate])
+    @checkedout_item = CheckedoutItem.new
     @checkedout_item.item = @item
-    #@checkout = Checkout.new
-    #@checkout.update_attributes(params[:checkout])
-    #@checkout = Checkout.new
-    #@student = Student.new(params[:checkout][:student_attributes])
-    #params[:checkout][:checkedout_items_attributes].each_with_index do |coi_hash, index|
-    #	coi_attrs = coi_hash[1];
-    #	item_attrs = coi_attrs[:item_attributes]
-    #	item = Item.find_by_id item_attrs[:id]
-    #	coi_attrs.delete :item_attributes
-    #	coi = CheckedoutItem.new(coi_attrs)
-    #	coi.item = item
-    #	@checkout.checkedout_items << coi
-    #end
+    @items = Item.find_all_by_id(params[:item_ids])
+    @checkedout_items = Array.new(@items.length, CheckedoutItem.new)
   end
   
   # POST /add_items
@@ -84,19 +81,17 @@ class CheckoutsController < AuthenticatedController
     		render action: "new"
     	end
     	@checkout = Checkout.new
-	#@checkout = Checkout.new(params[:checkout])
 	@checkout.student = @student
-	@checkout.checkedout_items.build
-	@checkout.checkedout_items[0].build_item
   end
 
   # POST /checkouts
   # POST /checkouts.json
   def create
-    #@student = Student.find_by_uin(params[:uin]) || 
-    #		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
-    @checkout = Checkout.new(params[:checkout])
-    #@checkout.student = @student
+    @student = Student.find_by_uin(params[:uin]) || Student.create(params[:student])
+    @checkout = Checkout.create(:student_id => @student.id, :status => 0)
+    @item = Item.find_by_id(params[:item_id])
+    enddate = Date.new(params[:enddate]["Item(1i)"].to_i, params[:enddate]["Item(2i)"].to_i, params[:enddate]["Item(3i)"].to_i)
+    @checkedout_item = CheckedoutItem.create(:checkout_id => @checkout.id, :item_id => @item.id, :startdate => DateTime.now, :enddate => enddate, :status => 0)
 
     respond_to do |format|
       if @checkout.save!

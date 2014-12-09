@@ -1,9 +1,45 @@
 <h1>Review Checkout</h1>
 
 <%= debug @checkedout_item %>
-<%= debug @item %>
-<%= debug @item.id %>
+<%= debug @items %>
 <%= debug @student %>
+
+<%= form_tag url_for(:controller => 'checkouts'), :method => 'POST' do %>
+  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
+	  <div class="field">
+	    <%= label_tag :firstname, 'First Name' %><br />
+	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= label_tag :firstname, 'Last Name' %><br />
+	    <%= s.text_field(:lastname, :value => @student.lastname, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= label_tag :firstname, 'Email' %><br />
+	    <%= s.text_field(:uin, :value => @student.uin, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= label_tag :firstname, 'UIN' %><br />
+	    <%= s.text_field(:email, :value => @student.email, :class => "student_info")%>
+	  </div>
+	  <div class="field">
+	    <%= label_tag :firstname, 'Phone Number' %><br />
+	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
+	  </div>
+  <% end %>
+  <div class="field">
+  <table id="item_tab">
+  	<% @items.each do |item| %>
+  	    <%= text_field_tag :item_id, '' %>
+  	    <%= text_field_tag :item_name %>
+  	    <%= datetime_select :enddate, "Item", ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+  	<% end %>
+  </table>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Finish"%>
+  </div>
+<% end %>
 
 
 <%= link_to 'Back', checkouts_path %>
