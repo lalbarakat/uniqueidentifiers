@@ -1,0 +1,37 @@
+<%= form_for @student, :url => {:controller => 'checkouts', :action => "add_items"}, builder: ComboboxFormBuilder do |f| %>
+  <% if @student.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+      <ul>
+      <% @student.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :firstname, 'First Name' %><br />
+    <%= f.combobox_tag(:firstname, options_for_select(@firstnames), :list_id => "firstname_list", :value => @student.firstname, :class => "student_info")%>
+  </div>
+  <div class="field">
+    <%= f.label :lastname, 'Last Name' %><br />
+    <%= f.combobox_tag(:lastname, options_for_select(@lastnames), :list_id => "lastname_list", :value => @student.lastname, :class => "student_info")%>
+  </div>
+  <div class="field">
+    <%= f.label :uin, 'UIN' %><br />
+    <%= f.combobox_tag(:uin, options_for_select(@uins), :list_id => "uin_list", :value => @student.uin, :class => "student_info")%>
+  </div>
+  <div class="field">
+    <%= f.label :email, 'Email' %><br />
+    <%= f.combobox_tag(:email, options_for_select(@emails), :list_id => "email_list", :value => @student.email, :class => "student_info")%>
+  </div>
+  <div class="field">
+    <%= f.label :phonenumber, 'Phone Number' %><br />
+    <%= f.combobox_tag(:phonenumber, options_for_select(@phones), :list_id => "phonenumber_list", :value => @student.phonenumber, :class => "student_info")%>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit "Continue"%>
+  </div>
+<% end %>

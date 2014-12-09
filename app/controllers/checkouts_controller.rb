@@ -24,8 +24,7 @@ class CheckoutsController < AuthenticatedController
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
-    @checkout = Checkout.new
-    @checkout.build_student
+    @student = Student.new
     @students = Student.all
     @uins = @students.collect { |student| student.uin }
     @firstnames = @students.collect { |student| student.firstname }
@@ -53,17 +52,29 @@ class CheckoutsController < AuthenticatedController
   
   # POST /review
   def review
-    @checkout = Checkout.new(params[:checkout])
+    @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
+    @item = Item.where(:id => params[:item_id]).first
+    @checkedout_item = CheckedoutItem.new(:enddate => params[:enddate])
+    @checkedout_item.item = @item
+    #@checkout = Checkout.new
+    #@checkout.update_attributes(params[:checkout])
+    #@checkout = Checkout.new
+    #@student = Student.new(params[:checkout][:student_attributes])
+    #params[:checkout][:checkedout_items_attributes].each_with_index do |coi_hash, index|
+    #	coi_attrs = coi_hash[1];
+    #	item_attrs = coi_attrs[:item_attributes]
+    #	item = Item.find_by_id item_attrs[:id]
+    #	coi_attrs.delete :item_attributes
+    #	coi = CheckedoutItem.new(coi_attrs)
+    #	coi.item = item
+    #	@checkout.checkedout_items << coi
+    #end
   end
   
   # POST /add_items
   def add_items
-  	@student = Student.find_by_uin(params[:uin]) || 
-    		Student.new(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
-    		
+  	@student = Student.find_by_uin(params[:uin]) || Student.new(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
     	if !@student.valid?
-		@checkout = Checkout.new
-	        @checkout.student = @student
 	        @students = Student.all
 	        @uins = @students.collect { |student| student.uin }
 	        @firstnames = @students.collect { |student| student.firstname }
@@ -72,8 +83,11 @@ class CheckoutsController < AuthenticatedController
 	        @phones = @students.collect { |student| student.phonenumber }
     		render action: "new"
     	end
-	@checkout = Checkout.new(params[:checkout])
+    	@checkout = Checkout.new
+	#@checkout = Checkout.new(params[:checkout])
 	@checkout.student = @student
+	@checkout.checkedout_items.build
+	@checkout.checkedout_items[0].build_item
   end
 
   # POST /checkouts
@@ -81,7 +95,6 @@ class CheckoutsController < AuthenticatedController
   def create
     #@student = Student.find_by_uin(params[:uin]) || 
     #		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
-    asdf adsf
     @checkout = Checkout.new(params[:checkout])
     #@checkout.student = @student
 

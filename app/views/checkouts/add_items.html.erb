@@ -3,7 +3,7 @@ var item_count = <%= @items.present? ? @items.length : 0 %>;
 
 function add_items_on_load() {
 	// Prevent the fake row from actually being submitted
-	$('#item_row').find('select, input.item_name, input.item_id').each(function() { $(this).attr('name', ''); });
+	$('#item_row').find('select, input.item_name').each(function() { $(this).attr('name', ''); });
 }
 
 function get_item_data(item_id) {
@@ -16,9 +16,7 @@ function get_item_data(item_id) {
 	    jsonItem = data;
 	  }
 	});
-	/*$.getJSON( "<%= items_path %>/" + item_id + ".json", function( data ) {
-		jsonItem = data;
-	});*/
+	
 	return jsonItem;
 }
 
@@ -37,10 +35,13 @@ function add_row(data) {
 		$(this).attr('id', 'checkout_checkedout_items_attributes_' + item_count + '_startdate_' + id_parts[6]);
 		$(this).attr('name', 'checkout[checkedout_items_attributes][' + item_count + '][startdate(' + id_parts[6] + ')]');
 	});
-	
+	$datetime.find('input.item_name').each(function() {
+		$(this).attr('id', 'checkout_checkedout_items_attributes_' + item_count + '_item_attributes_name');
+		$(this).attr('name', 'checkout[checkedout_items_attributes][' + item_count + '][item_attributes][name]');
+	});
 	$datetime.find('input.item_id').each(function() {
-		$(this).attr('id', 'checkout_checkedout_items_attributes_' + item_count + '_item_id');
-		$(this).attr('name', 'checkout[checkedout_items_attributes][' + item_count + '][item_id]');
+		$(this).attr('id', 'checkout_checkedout_items_attributes_' + item_count + '_item_attributes_id');
+		$(this).attr('name', 'checkout[checkedout_items_attributes][' + item_count + '][item_attributes][id]');
 	});
 	
 	if(item_count == 0) {
@@ -61,62 +62,32 @@ $(document).ready(function() {
 
 <%= render 'qr' %>
 
-<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "review"} do |f| %>
-  <% if @checkout.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
-
-      <ul>
-      <% @checkout.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
-  <%= f.fields_for :student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
+<%= form_tag 'review' do %>
+  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
 	  <div class="field" style="display:none">
-	    <%= s.text_field(:firstname, :value => @checkout.student.present? ? @checkout.student.firstname : "", :class => "student_info")%>
+	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
 	  </div>
 	  <div class="field" style="display:none">
-	    <%= s.text_field(:lastname, :value =>@checkout.student.present? ? @checkout.student.lastname : "", :class => "student_info")%>
+	    <%= s.text_field(:lastname, :value => @student.lastname, :class => "student_info")%>
 	  </div>
 	  <div class="field" style="display:none">
-	    <%= s.text_field(:uin, :value => @checkout.student.present? ? @checkout.student.uin : "", :class => "student_info")%>
+	    <%= s.text_field(:uin, :value => @student.uin, :class => "student_info")%>
 	  </div>
 	  <div class="field" style="display:none">
-	    <%= s.text_field(:email, :value => @checkout.student.present? ? @checkout.student.email : "", :class => "student_info")%>
+	    <%= s.text_field(:email, :value => @student.email, :class => "student_info")%>
 	  </div>
 	  <div class="field" style="display:none">
-	    <%= s.text_field(:phonenumber, :value => @checkout.student.present? ? @checkout.student.phonenumber : "", :class => "student_info")%>
+	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
 	  </div>
   <% end %>
   <div class="field">
   <table id="item_tab">
-    <% if @items.present? %>
-    	 #Stuff to print rows in table
-    <% else %>
-	    <tr>
-	    	<td>No items scanned!</td>
-	    </tr>
-    <% end %>
-    <%= f.fields_for :checkedout_items, CheckedoutItem.new do |coi| %>
-    	<tr id="item_row" style="display:none">
-    		  <td><input type="text" name="checkout_checkedout_items_attributes_0_item_id" class="item_id"/></td>
-    		  <td><input type="text" name="checkout_checkedout_items_attributes_0_item_name" class="item_name" /></td>
-		  <td style="display:none">
-		    <%= coi.label :startdate, "Start Date"%><br />
-		    <%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-		  </td>
-		  <td>
-		    <%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-		  </td>
-	</tr>
-    <% end %>
+  	<%= text_field_tag :item_id %>
+  	<%= datetime_select :enddate, "Item", ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
   </table>
   </div>
   <div class="actions">
-    <%= f.submit "Finish"%>
+    <%= submit_tag "Finish"%>
   </div>
   <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
 <% end %>
