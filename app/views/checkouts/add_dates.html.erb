@@ -1,5 +1,7 @@
-<%= form_tag 'review' do %>
-  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
+<h1>Add Return Date</h1>
+
+<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "review"} do |f| %>
+  <%= f.fields_for :student, :include_id => false do |s| %>
 	  <div class="field" style="display:none">
 	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
 	  </div>
@@ -16,18 +18,20 @@
 	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
 	  </div>
   <% end %>
-  <%= fields_for :checkedout_items do |coi| %>
-	  <div class="field">
-		  <table id="item_tab">
+  <div class="field">
+	  <table id="item_tab">
+	  	<tr><th>Item</th><th>Return Date</th></tr>
+	  	<%= f.fields_for :checkedout_items do |coi| %>
 		  	<tr>
-		  	<%= coi.text_field :id %>
-		  	<%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
+		  	<%= coi.fields_for :item do |i| %>
+		  		<td><%= i.text_field :name, :readonly => true %></td>
+		  	<% end %>
+		  	<td><%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %></td>
 		  	</tr>
-		  </table>
-	  </div>
-  <% end %>
-  <div class="actions">
-    <%= submit_tag "Finish"%>
+	  	<% end %>
+	  </table>
   </div>
-  <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
+  <div class="actions">
+    <%= submit_tag "Continue"%>
+  </div>
 <% end %>

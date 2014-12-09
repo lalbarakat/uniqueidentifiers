@@ -1,45 +1,44 @@
 <h1>Review Checkout</h1>
 
-<%= debug @checkedout_item %>
-<%= debug @items %>
-<%= debug @student %>
-
-<%= form_tag url_for(:controller => 'checkouts'), :method => 'POST' do %>
-  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
+<%= form_for @checkout do |f| %>
+  <%= f.fields_for :student, :include_id => false do |s| %>
 	  <div class="field">
-	    <%= label_tag :firstname, 'First Name' %><br />
+	    <%= f.label :firstname, 'First Name' %><br />
 	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
 	  </div>
 	  <div class="field">
-	    <%= label_tag :firstname, 'Last Name' %><br />
+	    <%= f.label :lastname, 'Last Name' %><br />
 	    <%= s.text_field(:lastname, :value => @student.lastname, :class => "student_info")%>
 	  </div>
 	  <div class="field">
-	    <%= label_tag :firstname, 'Email' %><br />
+	    <%= f.label :uin, 'UIN' %><br />
 	    <%= s.text_field(:uin, :value => @student.uin, :class => "student_info")%>
 	  </div>
 	  <div class="field">
-	    <%= label_tag :firstname, 'UIN' %><br />
+	    <%= f.label :email, 'Email' %><br />
 	    <%= s.text_field(:email, :value => @student.email, :class => "student_info")%>
 	  </div>
 	  <div class="field">
-	    <%= label_tag :firstname, 'Phone Number' %><br />
+	    <%= f.label :phonenumber, 'Phone Number' %><br />
 	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
 	  </div>
   <% end %>
   <div class="field">
-  <table id="item_tab">
-  	<% @items.each do |item| %>
-  	    <%= text_field_tag :item_id, '' %>
-  	    <%= text_field_tag :item_name %>
-  	    <%= datetime_select :enddate, "Item", ampm: true, :order => [:month, :day, :year], :minute_step => 15 %>
-  	<% end %>
-  </table>
+	  <table id="item_tab">
+	  	<tr><th>Item</th><th>Return Date</th></tr>
+	  	<%= f.fields_for :checkedout_items do |coi| %>
+		  	<tr>
+		  	<%= coi.fields_for :item do |i| %>
+		  		<td><%= i.text_field :name, :readonly => true %></td>
+		  	<% end %>
+		  	<td><%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %></td>
+		  	</tr>
+	  	<% end %>
+	  </table>
   </div>
   <div class="actions">
     <%= submit_tag "Finish"%>
   </div>
 <% end %>
-
 
 <%= link_to 'Back', checkouts_path %>

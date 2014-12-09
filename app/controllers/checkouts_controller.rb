@@ -52,10 +52,22 @@ class CheckoutsController < AuthenticatedController
   
   # POST /review
   def review
-  asdf
-    @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
+    @checkedout_items = params[:checkout][:checkedout_items_attributes].collect do |checkedout_item_attr_hash|
+    	checkedout_item_attr = checkedout_item_attr_hash[1]
+    	item_attr = checkedout_item_attr[:item_attributes]
+    	enddate = Date.new(checkedout_item_attr["enddate(1i)"].to_i, checkedout_item_attr["enddate(2i)"].to_i, checkedout_item_attr["enddate(3i)"].to_i)
+    	item = Item.find(item_attr[:id])
+    	checkedout = CheckedoutItem.new(:item_id => item.id, :startdate => DateTime.now, :enddate => enddate, :status => 0)
+    	checkedout.item = item
+    	checkedout
+    end
+
+    @student = Student.find_by_uin(params[:uin]) || Student.new(params[:checkout][:student_attributes])
     @items = Item.find_all_by_id(params[:item_ids])
     @item = Item.where(:id => params[:item_id]).first
+    @checkout = Checkout.new
+    @checkout.student = @student
+    @checkout.checkedout_items = @checkedout_items
   end
   
   # POST /add_dates
@@ -65,7 +77,15 @@ class CheckoutsController < AuthenticatedController
     @checkedout_item = CheckedoutItem.new
     @checkedout_item.item = @item
     @items = Item.find_all_by_id(params[:item_ids])
-    @checkedout_items = Array.new(@items.length, CheckedoutItem.new)
+    @checkedout_items = @items.collect do |item| 
+    	checkedout = CheckedoutItem.new
+    	checkedout.item_id = item.id;
+    	checkedout.item = item
+    	checkedout
+    end
+    @checkout = Checkout.new
+    @checkout.student = @student
+    @checkout.checkedout_items = @checkedout_items
   end
   
   # POST /add_items
@@ -87,11 +107,18 @@ class CheckoutsController < AuthenticatedController
   # POST /checkouts
   # POST /checkouts.json
   def create
-    @student = Student.find_by_uin(params[:uin]) || Student.create(params[:student])
+    @student = Student.find_by_uin(params[:uin]) || Student.create(params[:checkout][:student_attributes])
     @checkout = Checkout.create(:student_id => @student.id, :status => 0)
-    @item = Item.find_by_id(params[:item_id])
-    enddate = Date.new(params[:enddate]["Item(1i)"].to_i, params[:enddate]["Item(2i)"].to_i, params[:enddate]["Item(3i)"].to_i)
-    @checkedout_item = CheckedoutItem.create(:checkout_id => @checkout.id, :item_id => @item.id, :startdate => DateTime.now, :enddate => enddate, :status => 0)
+    @checkout.student = @student
+    @checkedout_items = params[:checkout][:checkedout_items_attributes].collect do |checkedout_item_attr_hash|
+    	checkedout_item_attr = checkedout_item_attr_hash[1]
+    	item_attr = checkedout_item_attr[:item_attributes]
+    	enddate = Date.new(checkedout_item_attr["enddate(1i)"].to_i, checkedout_item_attr["enddate(2i)"].to_i, checkedout_item_attr["enddate(3i)"].to_i)
+    	item = Item.find(item_attr[:id])
+    	checkedout = CheckedoutItem.create(:checkout_id => @checkout.id, :item_id => item.id, :startdate => DateTime.now, :enddate => enddate, :status => 0)
+    	checkedout.item = item
+    	checkedout
+    end
 
     respond_to do |format|
       if @checkout.save!
@@ -103,21 +130,40 @@ class CheckoutsController < AuthenticatedController
       end
     end
   end
+  
+  def checkin
+  	#render checkin view
+  end
+  
+  def review_checkin
+  	item_id = params[:item_ids][0]
+  	@items = Item.find_all_by_id(params[:item_ids])
+  	@checkout = Checkout.joins(:checkedout_items).where('checkedout_items.item_id = ? and checkouts.id = checkedout_items.checkout_id and checkouts.student_id is not null', item_id).first
+  	@student = @checkout.student
+  end
 
   # PUT /checkouts/1
   # PUT /checkouts/1.json
   # CHECKIN
   def update
-    @checkout = Checkout.find(params[:id])
+    @checkout = Checkout.find_by_id(params[:id])
 
+    params[:item_ids].each do |item|
+    	@checkout.checkedout_items.each do |coi|
+    		if(coi.item_id == item.to_i)
+    			coi.update_attribute('status', 1)
+    		end
+    	end
+    end
+    
     respond_to do |format|
-      if @checkout.update_attributes(params[:checkout])
+      #if @checkout.update_attributes(params[:checkout])
         format.html { redirect_to @checkout, notice: 'Checkout was successfully updated.' }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @checkout.errors, status: :unprocessable_entity }
-      end
+      #else
+      #  format.html { render action: "edit" }
+      #  format.json { render json: @checkout.errors, status: :unprocessable_entity }
+      #end
     end
   end
 

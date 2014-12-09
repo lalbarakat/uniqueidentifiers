@@ -7,10 +7,13 @@ Uniqueidentifiers::Application.routes.draw do
 
   resources :items
 
-  resources :checkouts
   post 'checkouts/add_items' => 'checkouts#add_items'
   post 'checkouts/add_dates' => 'checkouts#add_dates'
   post 'checkouts/review' => 'checkouts#review'
+  get 'checkouts/checkin' => 'checkouts#checkin'
+  post 'checkouts/review_checkin' => 'checkouts#review_checkin'
+  resources :checkouts
+
 
   resources :students
 

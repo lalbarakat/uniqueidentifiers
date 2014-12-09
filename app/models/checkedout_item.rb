@@ -1,5 +1,5 @@
 class CheckedoutItem < ActiveRecord::Base
-  belongs_to :checkout, :autosave => true
+  belongs_to :checkout
   has_one :item
   attr_accessible :enddate, :checkout_id, :item_id, :startdate, :status, :item_attributes
   accepts_nested_attributes_for :item
