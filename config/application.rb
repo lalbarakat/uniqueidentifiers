@@ -61,6 +61,7 @@ module Uniqueidentifiers
     config.assets.version = '1.0'
 
 
-    config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
+#    config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
+    config.rack_cas.server_url = 'https://cas.tamu.edu/'
   end
 end
