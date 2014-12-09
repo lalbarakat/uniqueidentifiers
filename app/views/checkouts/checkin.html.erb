@@ -35,24 +35,7 @@ function add_row(data) {
 
 <%= render 'qr' %>
 
-<%= form_tag 'add_dates' do %>
-  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
-	  <div class="field" style="display:none">
-	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
-	  </div>
-	  <div class="field" style="display:none">
-	    <%= s.text_field(:lastname, :value => @student.lastname, :class => "student_info")%>
-	  </div>
-	  <div class="field" style="display:none">
-	    <%= s.text_field(:uin, :value => @student.uin, :class => "student_info")%>
-	  </div>
-	  <div class="field" style="display:none">
-	    <%= s.text_field(:email, :value => @student.email, :class => "student_info")%>
-	  </div>
-	  <div class="field" style="display:none">
-	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
-	  </div>
-  <% end %>
+<%= form_tag 'review_checkin' do %>
   <div class="field">
   <table id="item_tab">
   	<tr><th>Item Name</th></tr>

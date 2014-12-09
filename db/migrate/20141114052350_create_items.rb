@@ -3,6 +3,7 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.string :name
       t.string :category
+      t.integer :checkedout_item_id
 
       t.timestamps
     end
