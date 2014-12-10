@@ -62,9 +62,8 @@ module Uniqueidentifiers
     config.assets.version = '1.0'
 
 
-#    config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
-    require 'rack-cas/session_store/active_record'
-    config.rack_cas.session_store = RackCAS::ActiveRecordStore
-    config.rack_cas.server_url = 'https://cas-dev.tamu.edu:443/'
+#require 'rack-cas/session_store/active_record'
+    #config.rack_cas.session_store = RackCAS::ActiveRecordStore
+#config.rack_cas.server_url = 'https://cas-dev.tamu.edu:443/'
   end
 end
