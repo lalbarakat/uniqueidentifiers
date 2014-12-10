@@ -121,6 +121,7 @@ class CheckoutsController < AuthenticatedController
   
   def review_checkin
   	item_id = params[:item_ids][0]
+  	#STOPPED HERE WORK ON THIS
   	@items = Item.find_all_by_id(params[:item_ids])
   	@checkout = Checkout.joins(:checkedout_items).where('checkedout_items.item_id = ? and checkouts.id = checkedout_items.checkout_id and checkouts.student_id is not null', item_id).first
   	@student = @checkout.student

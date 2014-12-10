@@ -4,24 +4,24 @@
 
 <div class="tasks">
   <img width="50" src="/Tasks.png">
-  <tag><%=link_to "Check Out", :controller =>:checkouts, :action => :new %></tag>
+  <tag><%=link_to "Check Out", {:controller =>:checkouts, :action => :new}, :style => "text-decoration:none" %></tag>
 </div>
 
 <div class="tasks">
   <img width="50" src="/Tasks.png">
-  <tag><%=link_to "Check In", :controller =>:checkouts, :action => :checkin %></tag>
+  <tag><%=link_to "Check In", {:controller =>:checkouts, :action => :checkin}, :style => "text-decoration:none" %></tag>
 </div>
 
 
 <div class="admin">
 <img width="50" src="/Admin.png">
-<tag><%=link_to "User Management", :controller =>:users, :action => :index %></tag>
+<tag><%=link_to "User Management", {:controller =>:users, :action => :index}, :style => "text-decoration:none" %></tag>
 </div>
 
 
 <div class="admin">
 <img width="50" src="/Admin.png">
-<tag><%=link_to "Manage Inventory", :controller =>:items, :action => :index %></tag>
+<tag><%=link_to "Manage Inventory", {:controller =>:items, :action => :index}, :style => "text-decoration:none" %></tag>
 </div>
 
 
@@ -29,7 +29,7 @@
 <div class="reports">
 
  <img width="50" src="/Report.png">
-  <tag><%=link_to "Generate Reports", :controller =>:reports, :action => :index %></tag>
+  <tag><%=link_to "Generate Reports", {:controller =>:reports, :action => :index}, :style => "text-decoration:none"%></tag>
 </div>
 
 

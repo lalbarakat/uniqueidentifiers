@@ -35,7 +35,7 @@ function do_by_student() {
 	<h1>Generate Reports</h1>
 
 	<div class="tasks">
-		<%=link_to reports_all_path, :class => "major_link" do %>
+		<%=link_to reports_all_path, :style => "text-decoration:none" do %>
 			<img width="50" src="Tasks.png">
 			<tag>All Checked Out Items</tag>
 		<% end %>
@@ -45,7 +45,7 @@ function do_by_student() {
 		<img width="50" src="Tasks.png">
 		<tag>By Checkout Date</tag>
 		<div class="filter">
-			<%= label("checkoutdate", "report", "Checkout Date") %>
+			<%= label("checkoutdate", "report", "Checkout Date") %></br>
 		 	<%= date_select("checkoutdate", "report") %>
 		 	<%= button_to_function "Go", "do_by_checkout_date()", class: "ok" %>
 		</div>

@@ -3,30 +3,19 @@
     <th>Equipment</th>
     <th>Student</th>
     <th>Time</th>
+    <th>Actions</th>
   </tr>
 
 <% @checkouts.each do |checkout| %>
-  <tr>
-    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname if checkout.student && checkout.student.firstname && checkout.student.lastname %></td>
-    <td><%= link_to 'Show', checkout %></td>
-    <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
-    <td><%= link_to 'Destroy', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-  <tr>
-    <table class="items_table">
-    	<tr>
-	    	<th>Item</th>
-	    	<th>Start Date</th>
-	    	<th>End Date</th>
-    	</tr>
-		<% checkout.checkedout_items.each do |coi| %>
-			<tr>
-	   		<td><%= coi.item.name if coi.item %></td>
-	   		<td><%= coi.startdate %></td>
-	   		<td><%= coi.enddate %></td>
-	   		</tr>
-		<% end %>
-    </table>
-  </tr>
+  <% checkout.checkedout_items.each do |coi| %>
+	  <tr>
+	    <td><%= coi.item.name %></td>
+	    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname %></td>
+	    <td><%= coi.enddate %></td>
+	    <td><%= link_to 'Show', checkout %>
+	        <%= link_to 'Edit', edit_checkout_path(checkout) %>
+	        <%= link_to 'Delete', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	  </tr>
+  <% end %>
 <% end %>
 </table>
