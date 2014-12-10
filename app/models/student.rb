@@ -1,5 +1,5 @@
 class Student < ActiveRecord::Base
-  has_many :checkouts, dependent: :destroy, :inverse_of => :student
+  has_many :checkouts, dependent: :destroy
   attr_accessible :email, :firstname, :lastname, :phonenumber, :uin
   before_save { self.email = email.downcase }
   validates :firstname, presence: true, length: { maximum: 50 }
