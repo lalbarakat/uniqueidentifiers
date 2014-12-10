@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  include SessionsHelper
-=begin
+#  include SessionsHelper
+#=begin
   before_filter :fix_cas_session
   before_filter :ensure_loggedin
 
@@ -16,5 +16,5 @@ class ApplicationController < ActionController::Base
           render status: 401, text: "Redirecting to SSO..."
        end
     end
-=end
+#=end
 end
