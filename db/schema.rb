@@ -33,9 +33,8 @@ ActiveRecord::Schema.define(:version => 20141206101444) do
   create_table "items", :force => true do |t|
     t.string   "name"
     t.string   "category"
-    t.integer  "checkedout_item_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "students", :force => true do |t|
