@@ -50,15 +50,21 @@ class CheckoutsController < AuthenticatedController
     @phones = @students.collect { |student| student.phonenumber }
   end
   
-  # POST /review
-  def review
-    begin
-        @checkout = Checkout.new(params[:checkout])
-    rescue ActiveRecord::RecordNotFound
-    	@checkout = Checkout.new(params[:checkout])
-    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
-    	return render action: "add_dates"
-    end
+  # POST /add_items
+  def add_items
+  	@student = Student.find_by_uin(params[:uin]) || Student.new(:firstname => params[:firstname], :lastname => params[:lastname],
+  								 :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+    	if !@student.valid?
+	        @students = Student.all
+	        @uins = @students.collect { |student| student.uin }
+	        @firstnames = @students.collect { |student| student.firstname }
+	        @lastnames = @students.collect { |student| student.lastname }
+	        @emails = @students.collect { |student| student.email }
+	        @phones = @students.collect { |student| student.phonenumber }
+    		render action: "new"
+    	end
+    	@checkout = Checkout.new
+	@checkout.student = @student
   end
   
   # POST /add_dates
@@ -76,27 +82,27 @@ class CheckoutsController < AuthenticatedController
     @checkout.checkedout_items = @checkedout_items
   end
   
-  # POST /add_items
-  def add_items
-  	@student = Student.find_by_uin(params[:uin]) || Student.new(:firstname => params[:firstname], :lastname => params[:lastname],
-  								 :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
-    	if !@student.valid?
-	        @students = Student.all
-	        @uins = @students.collect { |student| student.uin }
-	        @firstnames = @students.collect { |student| student.firstname }
-	        @lastnames = @students.collect { |student| student.lastname }
-	        @emails = @students.collect { |student| student.email }
-	        @phones = @students.collect { |student| student.phonenumber }
-    		render action: "new"
-    	end
-    	@checkout = Checkout.new
-	@checkout.student = @student
+  # POST /review
+  def review
+    begin
+        @checkout = Checkout.new(params[:checkout])
+    rescue ActiveRecord::RecordNotFound
+    	@checkout = Checkout.new(params[:checkout])
+    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
+    	return render action: "add_dates"
+    end
   end
 
   # POST /checkouts
   # POST /checkouts.json
   def create
-    @checkout = Checkout.create(params[:checkout])
+    begin
+        @checkout = Checkout.new(params[:checkout])
+    rescue ActiveRecord::RecordNotFound
+    	@checkout = Checkout.new(params[:checkout])
+    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
+    	return render action: "review"
+    end
 
     respond_to do |format|
       if @checkout.save
