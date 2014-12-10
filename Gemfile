@@ -40,4 +40,5 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
- gem 'rubycas-client-rails'
+# gem 'rubycas-client-rails'
+gem 'rack-cas'
