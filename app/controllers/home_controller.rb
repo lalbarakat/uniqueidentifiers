@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @user = session[:cas]
+#    @user = session[:cas]
   end
 end
