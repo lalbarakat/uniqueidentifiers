@@ -6,4 +6,16 @@ class CheckedoutItem < ActiveRecord::Base
   
   validates :startdate, presence: true
   validates :enddate, presence: true
+  
+  def item_attributes=(attributes)
+    if attributes['id'].present?
+      begin
+      	self.item = Item.find(attributes[:id])
+      rescue ActiveRecord::RecordNotFound => e
+      	attributes.delete :id
+      	raise e
+      end
+    end
+    assign_nested_attributes_for_one_to_one_association(:item, attributes)
+  end
 end
