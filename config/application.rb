@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+#require 'rack-cas/session_store/active_record'
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
@@ -61,7 +62,8 @@ module Uniqueidentifiers
     config.assets.version = '1.0'
 
 
-#    config.rubycas.cas_base_url = 'https://cas.tamu.edu/'
-    config.rack_cas.server_url = 'https://cas.tamu.edu/'
+#require 'rack-cas/session_store/active_record'
+    #config.rack_cas.session_store = RackCAS::ActiveRecordStore
+#config.rack_cas.server_url = 'https://cas-dev.tamu.edu:443/'
   end
 end
