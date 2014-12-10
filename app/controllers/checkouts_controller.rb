@@ -73,10 +73,8 @@ class CheckoutsController < AuthenticatedController
   # POST /add_dates
   def add_dates
     @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
-    @item = Item.where(:id => params[:item_id]).first
-    @checkedout_item = CheckedoutItem.new
-    @checkedout_item.item = @item
-    @items = Item.find_all_by_id(params[:item_ids])
+
+    @items = Item.find(params[:item_ids])
     @checkedout_items = @items.collect do |item| 
     	checkedout = CheckedoutItem.new
     	checkedout.item_id = item.id;
@@ -148,12 +146,25 @@ class CheckoutsController < AuthenticatedController
   def update
     @checkout = Checkout.find_by_id(params[:id])
 
+    # Update all items as checked in
     params[:item_ids].each do |item|
-    	@checkout.checkedout_items.each do |coi|
-    		if(coi.item_id == item.to_i)
-    			coi.update_attribute('status', 1)
-    		end
+    	coi = @checkout.checkedout_items.where('checkedout_items.item_id = ?', item).first
+    	if coi.nil?
+    		#ERROR
     	end
+    	coi.update_attribute('status', 1)
+    end
+    
+    # Check if the full checkout is finished
+    is_checkout_finished = true
+    @checkout.checkedout_items.each do |coi|
+	if(coi.status == 0)
+		is_checkout_finished = false
+	end
+    end
+    
+    if(is_checkout_finished)
+    	@checkout.update_attribute('status', 1)
     end
     
     respond_to do |format|
