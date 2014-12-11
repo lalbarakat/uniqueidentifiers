@@ -14,7 +14,7 @@
 <% @checkouts.each do |checkout| %>
   <tr>
     <td><%= checkout.student.firstname + ' ' + checkout.student.lastname unless checkout.student.blank? %></td>
-    <td><%= checkout.status %></td>
+    <td><%= checkout.status_text %></td>
     <td><%= checkout.student.firstname + ' ' + checkout.student.lastname unless checkout.student.blank? %></td>
     <td><%= checkout.student.firstname + ' ' + checkout.student.lastname unless checkout.student.blank? %></td>
     <td><%= link_to 'Show', checkout %></td>

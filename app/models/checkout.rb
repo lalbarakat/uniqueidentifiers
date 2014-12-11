@@ -5,4 +5,8 @@ class Checkout < ActiveRecord::Base
   attr_accessible :student_id, :status, :checkedout_items_attributes, :student_attributes, :status
   accepts_nested_attributes_for :checkedout_items
   accepts_nested_attributes_for :student
+  
+  def status_text
+  	self.status == 0? "Checked Out" : "Checked In"
+  end
 end
