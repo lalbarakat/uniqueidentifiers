@@ -26,7 +26,8 @@ function start(){
 	var constraints = {
 		video: {
 			optional: [{sourceId: videoSource}]
-		}
+		},
+		audio: false
 	};
 	setwebcam(constraints, true);
 }
