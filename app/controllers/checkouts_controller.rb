@@ -89,7 +89,7 @@ class CheckoutsController < AuthenticatedController
 	     	checkedout = CheckedoutItem.new
 	    	checkedout.item_id = item.id;
 	    	checkedout.item = item
-	    	return checkedout
+	    	checkedout
     	end
     end
     @checkout = Checkout.new
