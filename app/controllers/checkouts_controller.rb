@@ -116,7 +116,7 @@ class CheckoutsController < AuthenticatedController
     	@student = Student.find_by_uin(params[:checkout][:student_attributes][:uin])
     	params[:checkout].delete :student_attributes
     else 
-    	@student = Student.new(params[:student])
+    	@student = Student.new(params[:checkout][:student_attributes])
     	@checkout = @student
     end
     begin
