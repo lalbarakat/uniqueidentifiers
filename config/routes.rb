@@ -5,6 +5,7 @@ Uniqueidentifiers::Application.routes.draw do
 
   get "welcome/index"
   get "home/index"
+  get "reports/student" => 'reports#by_student'
 
   resources :items
 
