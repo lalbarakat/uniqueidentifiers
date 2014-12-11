@@ -1,3 +1,30 @@
+<script>
+var item_row = "";
+
+function find_index(name, value) {
+	var list_title = '#' + name + '_list';
+	var list = $(list_title)[0];
+
+	for(var i = 0; i < list.options.length; i++) {
+		if(list.options[i].value == value) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+$( document ).ready(function() {
+    $(".student_info").change(function () {
+    	var index = find_index($(this).attr('id'), this.value);
+    	$(".student_info").each(function () {
+    		if(index == -1) return;
+    		var list_title = '#' + $(this).attr('id') + '_list';
+    		$(this).val($(list_title + ' option').eq(index).val());
+	});
+    });
+});
+</script>
+
 <%= form_for @student, :url => {:controller => 'checkouts', :action => "add_items"}, builder: ComboboxFormBuilder do |f| %>
   <% if @student.errors.any? %>
     <div id="error_explanation">

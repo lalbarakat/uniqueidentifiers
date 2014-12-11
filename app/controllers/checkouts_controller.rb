@@ -80,7 +80,8 @@ class CheckoutsController < AuthenticatedController
     	return render action: "add_items"
     end
     @checkedout_items = @items.collect do |item| 
-    	if(CheckedoutItem.find_by_item_id(item.id))
+    	coi = CheckedoutItem.find_by_item_id(item.id)
+    	if(coi && coi.status == 0)
     		# Error item already checked out
     		@checkout = Checkout.new
     		@checkout.errors.add("Items", ": Item is already checked out: " + item.name)
@@ -152,6 +153,11 @@ class CheckoutsController < AuthenticatedController
     	coi = @checkout.checkedout_items.where('checkedout_items.item_id = ?', item).first
     	if coi.nil?
     		#ERROR item not part of checkout
+	    	@checkout.errors.add("Items", ": Some of the items scanned were from different checkouts")
+	    	return render action: "checkin"
+	elsif coi.status == 1
+	    	@checkout.errors.add("Items", ": Some of the items scanned are not checked out")
+	    	return render action: "checkin"
     	end
     	coi.update_attribute('status', 1)
     end

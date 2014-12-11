@@ -1,4 +1,4 @@
-<% if @checkout.errors.any? %>
+<% if @checkout && @checkout.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
 
@@ -8,7 +8,7 @@
       <% end %>
       </ul>
     </div>
-  <% elsif @checkout.student.errors.any? %>
+  <% elsif @checkout && @checkout.student.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.student.errors.count, "error") %> prohibited this student from being saved:</h2>
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141206101444) do
+ActiveRecord::Schema.define(:version => 20141209231739) do
 
   create_table "checkedout_items", :force => true do |t|
     t.integer  "checkout_id"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20141206101444) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "student_id"
-    t.string   "status"
+    t.integer  "status"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -36,6 +36,18 @@ ActiveRecord::Schema.define(:version => 20141206101444) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.string   "cas_ticket"
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["cas_ticket"], :name => "index_sessions_on_cas_ticket"
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "students", :force => true do |t|
     t.string   "uin"

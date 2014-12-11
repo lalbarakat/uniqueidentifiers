@@ -18,6 +18,10 @@ function get_item_data(item_id) {
 
 function add_row(data) {
 	var item_data = get_item_data(data);
+	if(item_data.name == undefined) {
+		alert("Couldn't find item with ID: " + data + " in the system.");
+		return;
+	}
 
 	var ref = document.getElementById('item_tab');
 	if(item_count == 0) {
@@ -28,6 +32,7 @@ function add_row(data) {
 	ref.rows[ref.rows.length-1].innerHTML = '<tr><td style="display:none">' + item_row + '</td><td><input type="text" readonly value="' + item_data.name + '"></input></td></tr>';
 	var insertedRow = ref.rows[ref.rows.length-1];
 	$(insertedRow).find('.item_id').attr('value', data);
+	document.getElementById('scanned').play();
 }
 </script>
 
@@ -36,6 +41,7 @@ function add_row(data) {
 <%= render 'qr' %>
 
 <%= form_tag 'review_checkin' do %>
+  <%= render 'errors' %>
   <div class="field">
   <table id="item_tab">
   	<tr><th>Item Name</th></tr>
