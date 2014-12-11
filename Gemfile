@@ -42,3 +42,5 @@ gem 'jquery-rails'
 # gem 'debugger'
 # gem 'rubycas-client-rails'
 gem 'rack-cas'
+
+gem 'cucumber-rails', :require => false
