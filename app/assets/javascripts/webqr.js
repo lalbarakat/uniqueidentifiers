@@ -58,6 +58,7 @@ function htmlEntities(str) {
 }
 
 function close_webcam() {
+   stype=0;
    v.pause();
    v.src="";
    webcam_stream.stop();
@@ -99,11 +100,11 @@ function error(error) {
     return;
 }
 
-function load() {
+function load(constraints) {
 	if(isCanvasSupported() && window.File && window.FileReader) {
 		initCanvas(870, 600);
 		qrcode.callback = function(data) { read(data); }
-        	setwebcam(undefined, false);
+        	setwebcam(constraints);
 	} else {
 		document.getElementById("mainbody").style.display="inline";
 		document.getElementById("mainbody").innerHTML='<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>'+
@@ -113,9 +114,9 @@ function load() {
 	}
 }
 
-function setwebcam(constraints, changingCameras) {
+function setwebcam(constraints) {
     constraints = (constraints === undefined)? {video: true, audio: false} : constraints;
-    if(stype==1 && !changingCameras) {
+    if(stype==1) {
         setTimeout(captureToCanvas, 500);    
         return;
     }

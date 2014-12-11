@@ -18,10 +18,11 @@ function gotSources(sourceInfos) {
 }
 
 function start(){
-	if (!!window.stream) {
+	/*if (!!window.stream) {
 		videoElement.src = null;
 		window.stream.stop();
-	}
+	}*/
+	close_webcam();
 	var videoSource = videoSelect.value;
 	var constraints = {
 		video: {
@@ -29,7 +30,7 @@ function start(){
 		},
 		audio: false
 	};
-	setwebcam(constraints, true);
+	load(constraints);
 }
 
 $(document).ready(function() {
