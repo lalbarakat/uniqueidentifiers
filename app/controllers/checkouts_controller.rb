@@ -138,7 +138,12 @@ class CheckoutsController < AuthenticatedController
   def review_checkin
   	item_id = params[:item_ids][0]
   	@items = Item.find_all_by_id(params[:item_ids])
-  	@checkout = Checkout.joins(:checkedout_items).where('checkedout_items.item_id = ? and checkouts.id = checkedout_items.checkout_id and checkouts.student_id is not null', item_id).first
+  	@checkout = Checkout.joins(:checkedout_items).where('checkedout_items.item_id = ? and checkouts.id = checkedout_items.checkout_id and checkedout_items.status = 0', item_id).first
+  	if @checkout.nil?
+  		@checkout = Checkout.new
+	    	@checkout.errors.add("Items", ": Some of the items scanned are not checked out")
+	    	return render action: "checkin"
+	end
   	@student = @checkout.student
   end
 

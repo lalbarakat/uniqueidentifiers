@@ -25,5 +25,7 @@
   <%= @user.email %>
 </p>
 
-<%= button_to "Edit", edit_user_path(@user), :method => :get %>
-<%= button_to "Back", users_path, :method => :get %>
+<div>
+<%= button_to "Edit", edit_user_path(@user), :method => :get, :style => "float:left" %>
+<%= button_to "Back", users_path, :method => :get, :style => "float:right" %>
+</div>

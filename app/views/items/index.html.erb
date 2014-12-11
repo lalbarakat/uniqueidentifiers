@@ -18,7 +18,5 @@
 <% end %>
 </table>
 
-<br />
-
-<%= button_to "Add Item", new_item_path, :method => :get %>
-<%= button_to "Back", welcome_index_path, :method => :get %>
+<%= button_to "Add Item", new_item_path, :method => :get, :style => 'float:left' %>
+<%= button_to "Back", welcome_index_path, :method => :get, :style => 'float:right' %>

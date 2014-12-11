@@ -16,5 +16,7 @@ function do_print() {
 
 <img id='item_qr' src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=<%=@item.id%>'/>
 
-<%= button_tag "Print",:type => 'button',:class => "printBtn", :onclick => "do_print()" %>
-<%= button_to "Back", items_path, :method => :get %>
+<div>
+<%= button_tag "Print", :type => 'button', :class => "printBtn", :onclick => "do_print()", :style => "float:left" %>
+<%= button_to "Back", items_path, :method => :get, :style => "float:right" %>
+</div>

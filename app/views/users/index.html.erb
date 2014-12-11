@@ -7,8 +7,7 @@
     <th>Username</th>
     <th>Password</th>
     <th>Email</th>
-    <th></th>
-    <th></th>
+    <th colspan="2">Actions</th>
   </tr>
 
 <% @users.each do |user| %>
@@ -19,11 +18,12 @@
     <td><%= user.password %></td>
     <td><%= user.email %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Remove', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
-<br />
-<%= button_to "Add User", new_user_path, :method => :get %>
-<%= button_to "Home", welcome_index_path, :method => :get %>
+<div>
+	<%= button_to "Add User", new_user_path, :method => :get, :style => "float:left" %>
+	<%= button_to "Home", welcome_index_path, :method => :get, :style => "float:right" %>
+</div>

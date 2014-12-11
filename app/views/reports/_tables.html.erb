@@ -3,7 +3,7 @@
     <th>Equipment</th>
     <th>Student</th>
     <th>Time</th>
-    <th>Actions</th>
+    <th colspan="3">Actions</th>
   </tr>
 
 <% if @checkouts.length > 0 %>
@@ -13,9 +13,9 @@
 		    <td><%= coi.item.name %></td>
 		    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname %></td>
 		    <td><%= coi.enddate %></td>
-		    <td><%= link_to 'Show', checkout %>
-			<%= link_to 'Edit', edit_checkout_path(checkout) %>
-			<%= link_to 'Delete', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		    <td><%= link_to 'Show', checkout %></td>
+		    <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
+		    <td><%= link_to 'Delete', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 		  </tr>
 	  <% end %>
 	<% end %>
