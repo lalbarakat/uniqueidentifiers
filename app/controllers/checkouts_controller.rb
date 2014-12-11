@@ -70,12 +70,27 @@ class CheckoutsController < AuthenticatedController
   # POST /add_dates
   def add_dates
     @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
-    @items = Item.find(params[:item_ids])
+    
+    # Get the scanned items
+    begin
+        @items = Item.find(params[:item_ids])
+    rescue ActiveRecord::RecordNotFound => e
+    	@checkout = Checkout.new
+    	@checkout.errors.add("Items", ": Some of the items scanned were not found in the system: " + e.message)
+    	return render action: "add_items"
+    end
     @checkedout_items = @items.collect do |item| 
-     	checkedout = CheckedoutItem.new
-    	checkedout.item_id = item.id;
-    	checkedout.item = item
-    	checkedout
+    	if(CheckedoutItem.find_by_item_id(item.id))
+    		# Error item already checked out
+    		@checkout = Checkout.new
+    		@checkout.errors.add("Items", ": Item is already checked out: " + item.name)
+    		return render action: "add_items"
+    	else
+	     	checkedout = CheckedoutItem.new
+	    	checkedout.item_id = item.id;
+	    	checkedout.item = item
+	    	return checkedout
+    	end
     end
     @checkout = Checkout.new
     @checkout.student = @student
@@ -86,9 +101,9 @@ class CheckoutsController < AuthenticatedController
   def review
     begin
         @checkout = Checkout.new(params[:checkout])
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => e
     	@checkout = Checkout.new(params[:checkout])
-    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
+    	@checkout.errors.add("Items", ": Some of the items scanned were not found in the system: " + e.message)
     	return render action: "add_dates"
     end
   end
@@ -98,9 +113,9 @@ class CheckoutsController < AuthenticatedController
   def create
     begin
         @checkout = Checkout.new(params[:checkout])
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => e
     	@checkout = Checkout.new(params[:checkout])
-    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
+    	@checkout.errors.add("Items", ": Some of the items scanned were not found in the system: " + e.message)
     	return render action: "review"
     end
 
@@ -121,7 +136,6 @@ class CheckoutsController < AuthenticatedController
   
   def review_checkin
   	item_id = params[:item_ids][0]
-  	#STOPPED HERE WORK ON THIS
   	@items = Item.find_all_by_id(params[:item_ids])
   	@checkout = Checkout.joins(:checkedout_items).where('checkedout_items.item_id = ? and checkouts.id = checkedout_items.checkout_id and checkouts.student_id is not null', item_id).first
   	@student = @checkout.student
@@ -137,7 +151,7 @@ class CheckoutsController < AuthenticatedController
     params[:item_ids].each do |item|
     	coi = @checkout.checkedout_items.where('checkedout_items.item_id = ?', item).first
     	if coi.nil?
-    		#ERROR
+    		#ERROR item not part of checkout
     	end
     	coi.update_attribute('status', 1)
     end
@@ -155,13 +169,8 @@ class CheckoutsController < AuthenticatedController
     end
     
     respond_to do |format|
-      #if @checkout.update_attributes(params[:checkout])
         format.html { redirect_to @checkout, notice: 'Checkout was successfully updated.' }
         format.json { head :no_content }
-      #else
-      #  format.html { render action: "edit" }
-      #  format.json { render json: @checkout.errors, status: :unprocessable_entity }
-      #end
     end
   end
 

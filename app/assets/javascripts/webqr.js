@@ -71,7 +71,6 @@ function read(a) {
     }
     read_ids[a] = true;
     add_row(a);
-    document.getElementById('scanned').play();
     setTimeout(captureToCanvas, 500);	// Keep scanning
     //close_webcam();
 }	
