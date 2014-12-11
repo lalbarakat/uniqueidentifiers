@@ -24,10 +24,17 @@ function do_by_checkout_date() {
 	document.location.href = '<%= reports_path %>' + '/checkoutdate/' + $month + '/' + $day + '/' + $year;
 }
 
-function do_by_student() {
-	var $student = $('#studentid_report').val();
+function do_by_student_uin() {
+	var $student = $('#studentuin_report').val();
 	
-	document.location.href = '<%= reports_path %>' + '/student/' + $student;
+	document.location.href = '<%= reports_path %>' + '/student_uin/' + $student;
+}
+
+function do_by_student_name() {
+	var $student_first = $('#studentfirstname_report').val();
+	var $student_last = $('#studentlastname_report').val();
+	
+	document.location.href = '<%= reports_path %>' + '/student_name/' + $student_first + '/' + $student_last;
 }
 </script>
 
@@ -63,11 +70,23 @@ function do_by_student() {
 	
 	<div class="tasks">
 		<img width="50" src="Tasks.png">
-		<tag>By Student</tag>
+		<tag>By Student UIN</tag>
 		<div class="filter">
-			<%= label("studentid", "report", "Student UIN") %></br>
-			<%= text_field("studentid", "report") %>
-			<%= button_to_function "Go", "do_by_student()", class: "ok" %>
+			<%= label("studentuin", "report", "Student UIN") %></br>
+			<%= text_field("studentuin", "report") %>
+			<%= button_to_function "Go", "do_by_student_uin()", class: "ok" %>
+		</div>
+	</div>
+	
+	<div class="tasks">
+		<img width="50" src="Tasks.png">
+		<tag>By Student Name</tag>
+		<div class="filter">
+			<%= label("studentfirst", "report", "First Name") %></br>
+			<%= text_field("studentfirstname", "report") %></br>
+			<%= label("studentlast", "report", "Last Name") %></br>
+			<%= text_field("studentlastname", "report") %>
+			<%= button_to_function "Go", "do_by_student_name()", class: "ok" %>
 		</div>
 	</div>
 </div>

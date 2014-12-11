@@ -2,6 +2,7 @@
   <tr>
     <th>Equipment</th>
     <th>Student</th>
+    <th>UIN</th>
     <th>Checkout Date</th>
     <th>Return Date</th>
     <th colspan="2">Actions</th>
@@ -13,6 +14,7 @@
 		  <tr>
 		    <td><%= coi.item.name %></td>
 		    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname %></td>
+		    <td><%= checkout.student.uin %></td>
 		    <td><%= coi.startdate %></td>
 		    <td><%= coi.enddate %></td>
 		    <td><%= link_to 'Show', checkout %></td>
@@ -23,6 +25,7 @@
 <% else %>
 	<tr>
 	    <td>No matching checkouts</td>
+	    <td></td>
 	    <td></td>
 	    <td></td>
 	    <td></td>

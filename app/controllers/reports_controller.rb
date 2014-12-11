@@ -17,7 +17,11 @@ class ReportsController < ApplicationController
   end
   
   
-  def by_student
+  def by_student_uin
   	@checkouts = Checkout.joins(:student).where("checkouts.status = 0 AND students.uin = ?", params[:uin]).all
+  end
+  
+  def by_student_name
+  	@checkouts = Checkout.joins(:student).where("checkouts.status = 0 AND students.firstname = ? AND students.lastname = ?", params[:firstname], params[:lastname]).all
   end
 end

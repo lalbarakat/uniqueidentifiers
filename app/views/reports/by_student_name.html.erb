@@ -1,0 +1,10 @@
+<h1>Checkouts by student name</h1>
+
+<% if @checkouts.length > 1 %>
+	<%= render 'tables_uin' %>
+<% else %>
+	<%= render 'tables' %>
+<% end %>
+
+<%= button_to "Back", reports_path, :method => 'get' %>
+

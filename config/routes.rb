@@ -30,7 +30,8 @@ Uniqueidentifiers::Application.routes.draw do
   get 'reports/all' => 'reports#all'
   get 'reports/checkoutdate/:month/:day/:year' => 'reports#by_checkout_date'
   get 'reports/returndate/:month/:day/:year' => 'reports#by_return_date'
-  get 'reports/student/:uin' => 'reports#by_student'
+  get 'reports/student_uin/:uin' => 'reports#by_student_uin'
+  get 'reports/student_name/:firstname/:lastname' => 'reports#by_student_name'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
