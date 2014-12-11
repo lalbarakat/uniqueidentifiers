@@ -1,0 +1,64 @@
+How to set it up
+
+1. Modify the gemfile as follow:
+# Use rspec
+group :development, :test do
+	gem 'rspec-rails', '~> 3.1.0'
+	gem 'factory_girl_rails'
+end
+
+group :test do
+	gem 'faker'
+	gem 'capybara'
+	gem 'guard-rspec'
+	gem 'launchy'
+end
+
+2. Add code to config/database.yml
+test: 
+	adapter: sqlite3 
+	database: db/test.sqlite3 
+	pool: 5 
+	timeout: 5000
+	
+3. run
+$ rake db:create:all
+if the test.sqlite3 in db folder is empty, copy development.sqlite3 and rename it as test.sqlite3
+
+4. run
+$ rails g rspec:install
+
+5. Modify config/application.rb
+config.generators do |g| 
+	g.test_framework :rspec, 
+		:fixtures => true, 
+		:view_specs => false, 
+		:helper_specs => false, 
+		:routing_specs => false, 
+		:controller_specs => true, 
+		:request_specs => true 
+	g.fixture_replacement :factory_girl, :dir => "spec/factories" 
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
