@@ -112,8 +112,16 @@ class CheckoutsController < AuthenticatedController
   # POST /checkouts
   # POST /checkouts.json
   def create
+    if Student.find_by_uin(params[:checkout][:student_attributes][:uin])
+    	@student = Student.find_by_uin(params[:checkout][:student_attributes][:uin])
+    	params[:checkout].delete :student_attributes
+    else 
+    	@student = Student.new(params[:student])
+    	@checkout = @student
+    end
     begin
         @checkout = Checkout.new(params[:checkout])
+        @checkout.student = @student
     rescue ActiveRecord::RecordNotFound => e
     	@checkout = Checkout.new(params[:checkout])
     	@checkout.errors.add("Items", ": Some of the items scanned were not found in the system: " + e.message)
