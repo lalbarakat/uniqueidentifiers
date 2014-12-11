@@ -6,16 +6,25 @@
     <th>Actions</th>
   </tr>
 
-<% @checkouts.each do |checkout| %>
-  <% checkout.checkedout_items.each do |coi| %>
-	  <tr>
-	    <td><%= coi.item.name %></td>
-	    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname %></td>
-	    <td><%= coi.enddate %></td>
-	    <td><%= link_to 'Show', checkout %>
-	        <%= link_to 'Edit', edit_checkout_path(checkout) %>
-	        <%= link_to 'Delete', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	  </tr>
-  <% end %>
+<% if @checkouts.length > 0 %>
+	<% @checkouts.each do |checkout| %>
+	  <% checkout.checkedout_items.each do |coi| %>
+		  <tr>
+		    <td><%= coi.item.name %></td>
+		    <td><%= checkout.student.firstname + ' ' + checkout.student.lastname %></td>
+		    <td><%= coi.enddate %></td>
+		    <td><%= link_to 'Show', checkout %>
+			<%= link_to 'Edit', edit_checkout_path(checkout) %>
+			<%= link_to 'Delete', checkout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		  </tr>
+	  <% end %>
+	<% end %>
+<% else %>
+	<tr>
+	    <td>No matching checkouts</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	</tr>
 <% end %>
 </table>
