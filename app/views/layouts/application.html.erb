@@ -4,7 +4,44 @@
   <title>Viz APEX</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
+  <meta content="width=device-width, initial-scale=1.0;" name="viewport">
   <%= csrf_meta_tags %>
+<style type="text/css">
+
+/*<![CDATA[*/
+
+
+/* ==|== Tablet-screen override styles =====================================================
+ *    ========================================================================== */
+@media only screen and (min-width: 20em){
+    .container, #content #admin{
+          width: auto;
+                  }
+
+}
+
+@media only screen and (min-width: 49em){
+    .container, #content #admin {
+        width: 950px;
+                }
+}
+
+@media only screen and (max-width: 36em){ 
+    #logo a, #logo .headerDivider{
+          display:none;
+                    }
+      #header{
+            background-size:cover;
+              }
+        .container, #content #admin div{
+              margin: 5px;
+                        }
+}
+
+/*]]>*/
+</style>
+
+
 </head>
 <body>
 

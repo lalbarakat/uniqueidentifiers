@@ -20,10 +20,6 @@
     <%= f.text_field :lastname %>
   </div>
   <div class="field">
-    <%= f.label :permissions, "Permissions" %><br />
-    <%= select_tag "permissions", options_for_select([ "Select an Option", "Full", "Normal" ], disabled: "Select an Option", selected: "Select an Option") %>
-  </div>
-  <div class="field">
     <%= f.label :username, "User Name" %><br />
     <%= f.text_field :username %>
   </div>

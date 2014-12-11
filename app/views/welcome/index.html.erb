@@ -3,37 +3,33 @@
 <h1>Dashboard</h1>
 
 <div class="tasks">
- <img width="50" src="Tasks.png">
-  <tag>Tasks</tag>
-<ul>
-<li><%=link_to "Check Out", :controller =>:checkouts, :action => :new %></li>
-<li><%=link_to "Check In", :controller =>:checkouts, :action => :index %></li>
-</ul>
+  <img width="50" src="/Tasks.png">
+  <tag><%=link_to "Check Out", {:controller =>:checkouts, :action => :new}, :style => "text-decoration:none" %></tag>
 </div>
 
-<div class="schedule">
-<img width="50" src="Schedule.png">
-<tag>User Management</tag>
-<ul>
-<li><%=link_to "User Management", :controller =>:users, :action => :index %></li>
-</ul>
+<div class="tasks">
+  <img width="50" src="/Tasks.png">
+  <tag><%=link_to "Check In", {:controller =>:checkouts, :action => :checkin}, :style => "text-decoration:none" %></tag>
 </div>
 
 
-<div class="blackout">
-<img width="50" src="Blackout.png">
-<tag>Manage Inventory</tag>
-<ul>
-<li><%=link_to "Manage Inventory", :controller =>:items, :action => :index %></li>
-</ul>
+<div class="admin">
+<img width="50" src="/Admin.png">
+<tag><%=link_to "User Management", {:controller =>:users, :action => :index}, :style => "text-decoration:none" %></tag>
 </div>
+
+
+<div class="admin">
+<img width="50" src="/Admin.png">
+<tag><%=link_to "Manage Inventory", {:controller =>:items, :action => :index}, :style => "text-decoration:none" %></tag>
+</div>
+
+
 
 <div class="reports">
- <img width="50" src="Report.png">
-  <tag>Reports</tag>
-<ul>
-<li><%=link_to "Generate Reports", :controller =>:reports, :action => :index %></li>
-</ul>
+
+ <img width="50" src="/Report.png">
+  <tag><%=link_to "Generate Reports", {:controller =>:reports, :action => :index}, :style => "text-decoration:none"%></tag>
 </div>
 
 

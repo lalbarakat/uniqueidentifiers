@@ -1,0 +1,25 @@
+<h1>Review Checkin</h1>
+
+<p>
+  <b>Student:</b>
+  <%= @checkout.student.firstname + ' ' + @checkout.student.lastname %>
+</p>
+<%= form_tag checkout_path(@checkout), :method => :put do %>
+  <div class="field">
+  <table id="item_tab">
+  	<tr><th>Item Name</th></tr>
+  	<% @items.each do |item| %>
+  		<tr>
+  		    <td style="display:none"><%= text_field_tag "item_ids[]", item.id, :style => "display:none", :readonly => true, :class => "item_id" %></td>
+  		    <td><%= text_field_tag "", "", :readonly => true, :value => item.name %></td>
+  		</tr>
+  	<% end %>
+  </table>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Continue"%>
+  </div>
+  <audio id="scanned" src=<%= asset_path('chime.wav') %> style="display:none" />
+<% end %>
+
+<%= link_to 'Back', checkouts_path %>

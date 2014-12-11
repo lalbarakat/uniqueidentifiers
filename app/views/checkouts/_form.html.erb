@@ -28,7 +28,7 @@ $( document ).ready(function() {
 });
 </script>
 
-<%= form_for @checkout, :url => {:controller => 'scan', :action => "add_items"} do |f| %>
+<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "add_items"} do |f| %>
   <% if @checkout.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
@@ -39,9 +39,19 @@ $( document ).ready(function() {
       <% end %>
       </ul>
     </div>
+  <% elsif @checkout.student.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@checkout.student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+      <ul>
+      <% @checkout.student.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
   <% end %>
   
-  <%= f.fields_for :student, builder: ComboboxFormBuilder do |s| %>
+  <%= f.fields_for @checkout.student, builder: ComboboxFormBuilder do |s| %>
 	  <div class="field">
 	    <%= s.label :firstname, 'First Name' %><br />
 	    <%= s.combobox_tag(:firstname, options_for_select(@firstnames), :list_id => "firstname_list", :value => @checkout.student.present? ? @checkout.student.firstname : "", :class => "student_info")%>

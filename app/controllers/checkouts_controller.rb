@@ -24,9 +24,8 @@ class CheckoutsController < AuthenticatedController
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
-    @checkout = Checkout.new
-    @checkout.build_student
-    @students = Student.all()
+    @student = Student.new
+    @students = Student.all
     @uins = @students.collect { |student| student.uin }
     @firstnames = @students.collect { |student| student.firstname }
     @lastnames = @students.collect { |student| student.lastname }
@@ -43,7 +42,7 @@ class CheckoutsController < AuthenticatedController
   def edit
     @checkout = Checkout.find(params[:id])
     @student = @checkout.student
-    @students = Student.all()
+    @students = Student.all
     @uins = @students.collect { |student| student.uin }
     @firstnames = @students.collect { |student| student.firstname }
     @lastnames = @students.collect { |student| student.lastname }
@@ -51,44 +50,118 @@ class CheckoutsController < AuthenticatedController
     @phones = @students.collect { |student| student.phonenumber }
   end
   
+  # POST /add_items
+  def add_items
+  	@student = Student.find_by_uin(params[:uin]) || Student.new(:firstname => params[:firstname], :lastname => params[:lastname],
+  								 :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
+    	if !@student.valid?
+	        @students = Student.all
+	        @uins = @students.collect { |student| student.uin }
+	        @firstnames = @students.collect { |student| student.firstname }
+	        @lastnames = @students.collect { |student| student.lastname }
+	        @emails = @students.collect { |student| student.email }
+	        @phones = @students.collect { |student| student.phonenumber }
+    		render action: "new"
+    	end
+    	@checkout = Checkout.new
+	@checkout.student = @student
+  end
+  
+  # POST /add_dates
+  def add_dates
+    @student = Student.find_by_uin(params[:uin]) || Student.new(params[:student])
+    @items = Item.find(params[:item_ids])
+    @checkedout_items = @items.collect do |item| 
+     	checkedout = CheckedoutItem.new
+    	checkedout.item_id = item.id;
+    	checkedout.item = item
+    	checkedout
+    end
+    @checkout = Checkout.new
+    @checkout.student = @student
+    @checkout.checkedout_items = @checkedout_items
+  end
+  
   # POST /review
   def review
-    @checkout = Checkout.new(params[:checkout])
+    begin
+        @checkout = Checkout.new(params[:checkout])
+    rescue ActiveRecord::RecordNotFound
+    	@checkout = Checkout.new(params[:checkout])
+    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
+    	return render action: "add_dates"
+    end
   end
 
   # POST /checkouts
   # POST /checkouts.json
   def create
-    #@student = Student.find_by_uin(params[:uin]) || 
-    #		Student.create(:firstname => params[:firstname], :lastname => params[:lastname], :email => params[:email], :phonenumber => params[:phonenumber], :uin => params[:uin])
-    @checkout = Checkout.new(params[:checkout])
-    #@checkout.student = @student
+    begin
+        @checkout = Checkout.new(params[:checkout])
+    rescue ActiveRecord::RecordNotFound
+    	@checkout = Checkout.new(params[:checkout])
+    	@checkout.errors.add(:items, ": Some of the items scanned were not found in the system")
+    	return render action: "review"
+    end
 
     respond_to do |format|
       if @checkout.save
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else
-        format.html { render action: "new" }
+        format.html { render action: "review" }
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  def checkin
+  	#render checkin view
+  end
+  
+  def review_checkin
+  	item_id = params[:item_ids][0]
+  	#STOPPED HERE WORK ON THIS
+  	@items = Item.find_all_by_id(params[:item_ids])
+  	@checkout = Checkout.joins(:checkedout_items).where('checkedout_items.item_id = ? and checkouts.id = checkedout_items.checkout_id and checkouts.student_id is not null', item_id).first
+  	@student = @checkout.student
   end
 
   # PUT /checkouts/1
   # PUT /checkouts/1.json
   # CHECKIN
   def update
-    @checkout = Checkout.find(params[:id])
+    @checkout = Checkout.find_by_id(params[:id])
 
+    # Update all items as checked in
+    params[:item_ids].each do |item|
+    	coi = @checkout.checkedout_items.where('checkedout_items.item_id = ?', item).first
+    	if coi.nil?
+    		#ERROR
+    	end
+    	coi.update_attribute('status', 1)
+    end
+    
+    # Check if the full checkout is finished
+    is_checkout_finished = true
+    @checkout.checkedout_items.each do |coi|
+	if(coi.status == 0)
+		is_checkout_finished = false
+	end
+    end
+    
+    if(is_checkout_finished)
+    	@checkout.update_attribute('status', 1)
+    end
+    
     respond_to do |format|
-      if @checkout.update_attributes(params[:checkout])
+      #if @checkout.update_attributes(params[:checkout])
         format.html { redirect_to @checkout, notice: 'Checkout was successfully updated.' }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @checkout.errors, status: :unprocessable_entity }
-      end
+      #else
+      #  format.html { render action: "edit" }
+      #  format.json { render json: @checkout.errors, status: :unprocessable_entity }
+      #end
     end
   end
 

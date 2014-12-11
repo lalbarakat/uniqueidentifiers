@@ -33,7 +33,14 @@ function start(){
 }
 
 $(document).ready(function() {
-	videoSelect = videoSelect = document.querySelector("select#camera_sel");
+	if(typeof MediaStreamTrack.getSources == 'undefined') {
+		videoSelect = document.querySelector("select#camera_sel");
+		videoSelect.style.display = "none";
+		load();
+		return;
+	}
+
+	videoSelect = document.querySelector("select#camera_sel");
 	videoElement = document.querySelector("video");
 
 	if (typeof MediaStreamTrack === 'undefined'){

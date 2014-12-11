@@ -1,0 +1,41 @@
+<h1>Add Return Date</h1>
+
+<%= form_for @checkout, :url => {:controller => 'checkouts', :action => "review"} do |f| %>
+  <%= render 'errors' %>
+  <%= f.fields_for :student, :include_id => false do |s| %>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:firstname, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:lastname, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:uin, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:email, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:phonenumber, :class => "student_info")%>
+	  </div>
+  <% end %>
+  <div class="field">
+	  <table id="item_tab">
+	  	<tr><th>Item</th><th>Return Date</th></tr>
+	  	<%= f.fields_for :checkedout_items do |coi| %>
+		  	<tr>
+		  	<%= coi.fields_for :item do |i| %>
+		  		<td style="display:none"><%= i.text_field :id, :readonly => true %></td>
+		  		<td><%= i.text_field :name, :readonly => true %></td>
+		  		<td style="display:none"><%= i.text_field :category, :readonly => true %></td>
+		  	<% end %>
+		  	<td style="display:none"><%= coi.datetime_select :startdate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %></td>
+		  	<td><%= coi.datetime_select :enddate, ampm: true, :order => [:month, :day, :year], :minute_step => 15 %></td>
+		  	</tr>
+	  	<% end %>
+	  </table>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Continue"%>
+  </div>
+<% end %>
