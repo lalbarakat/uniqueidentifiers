@@ -1,6 +1,11 @@
 <h1>Checkouts by student</h1>
 
-<%= render 'tables' %>
+<%= simple_format @result.to_yaml %>
+<%= @result.cmd_tuples%>
 
+
+<% @result.each do |row| %>
+<td><%= simple_format row.to_yaml %></td>
+<% end %>
 <%= button_to "Back", reports_path, :method => 'get' %>
 

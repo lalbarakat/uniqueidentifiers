@@ -16,6 +16,7 @@ class ReportsController < ApplicationController
   	@checkouts = Checkout.joins(:checkedout_items).where("checkouts.status = 0 AND checkedout_items.enddate BETWEEN ? AND ?", return_date.beginning_of_day, return_date.end_of_day).group('checkouts.id')
   end
   
+  
   def by_student
   	@checkouts = Checkout.joins(:student).where("checkouts.status = 0 AND students.uin = ?", params[:uin]).all
   end
