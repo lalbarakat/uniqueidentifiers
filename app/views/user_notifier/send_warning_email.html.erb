@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2><%= @student.firstname %>,</h2>
+    <p>This is a reminder that the following items are due before their respective return dates.</p>
+    <table>
+  	<tr>
+    	    <th>Equipment</th>
+    	    <th>Return Date</th>
+  	</tr>
+	<% @items.each do |coi| %>
+	  <tr>
+	    <td><%= coi.item.name %></td>
+	    <td><%= coi.enddate %></td>
+	  </tr>
+	<% end %>
+    </table>
+    
+    <p>Thanks and have a great day!</p>
+    <h2>VizAPEX Team</h2>
+  </body>
+</html>

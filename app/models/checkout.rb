@@ -9,4 +9,16 @@ class Checkout < ActiveRecord::Base
   def status_text
   	self.status == 0? "Checked Out" : "Checked In"
   end
+  
+  def student_attributes=(attributes)
+    if attributes[:id].present?
+      if(Student.find(attributes[:id]))
+      	self.student = Student.find(attributes[:id])
+      else
+      	attributes.delete :id
+        self.student = Student.new(attributes)
+      end
+    end
+    assign_nested_attributes_for_one_to_one_association(:student, attributes)
+  end
 end

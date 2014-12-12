@@ -2,7 +2,7 @@
 
 <%= form_for @checkout, :url => {:controller => 'checkouts', :action => "review"} do |f| %>
   <%= render 'errors' %>
-  <%= f.fields_for :student, :include_id => false do |s| %>
+  <%= f.fields_for :student do |s| %>
 	  <div class="field" style="display:none">
 	    <%= s.text_field(:firstname, :class => "student_info")%>
 	  </div>
@@ -17,6 +17,9 @@
 	  </div>
 	  <div class="field" style="display:none">
 	    <%= s.text_field(:phonenumber, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:id, :value => @student.id, :class => "student_info")%>
 	  </div>
   <% end %>
   <div class="field">

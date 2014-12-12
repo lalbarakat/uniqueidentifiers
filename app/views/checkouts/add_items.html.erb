@@ -42,7 +42,7 @@ function add_row(data) {
 
 <%= form_tag 'add_dates' do %>
   <%= render 'errors' %>
-  <%= fields_for @student, :include_id => false, builder: ComboboxFormBuilder do |s| %>
+  <%= fields_for @student, builder: ComboboxFormBuilder do |s| %>
 	  <div class="field" style="display:none">
 	    <%= s.text_field(:firstname, :value => @student.firstname, :class => "student_info")%>
 	  </div>
@@ -57,6 +57,9 @@ function add_row(data) {
 	  </div>
 	  <div class="field" style="display:none">
 	    <%= s.text_field(:phonenumber, :value => @student.phonenumber, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= s.text_field(:id, :value => @student.id, :class => "student_info")%>
 	  </div>
   <% end %>
   <div class="field">

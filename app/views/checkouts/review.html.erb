@@ -3,7 +3,7 @@
 <%= form_for @checkout do |f| %>
   <%= render 'errors' %>
   <%= f.text_field :status, :readonly => true, :value => '0', :style => 'display:none' %>
-  <%= f.fields_for :student, :include_id => false do |s| %>
+  <%= f.fields_for :student do |s| %>
 	  <div class="field">
 	    <%= f.label :firstname, 'First Name' %><br />
 	    <%= s.text_field(:firstname, :class => "student_info")%>
@@ -23,6 +23,10 @@
 	  <div class="field">
 	    <%= f.label :phonenumber, 'Phone Number' %><br />
 	    <%= s.text_field(:phonenumber, :class => "student_info")%>
+	  </div>
+	  <div class="field" style="display:none">
+	    <%= f.label :id, 'ID' %><br />
+	    <%= s.text_field(:id, :class => "student_info")%>
 	  </div>
   <% end %>
   <div class="field">

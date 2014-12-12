@@ -1,6 +1,7 @@
 class CheckedoutItem < ActiveRecord::Base
-  #belongs_to :checkout
+  belongs_to :checkout
   belongs_to :item
+  has_one :student, :through => :checkout
   attr_accessible :enddate, :checkout_id, :item_id, :startdate, :status, :item_attributes
   accepts_nested_attributes_for :item
   
