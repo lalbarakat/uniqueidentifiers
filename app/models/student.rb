@@ -5,6 +5,6 @@ class Student < ActiveRecord::Base
   validates :firstname, presence: true, length: { maximum: 50 }
   validates :lastname, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 }, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, uniqueness: { case_sensitive: false }
-  validates :phonenumber, presence: true, length: { maximum: 10 }, format: { with: /\d{10}/ }
-  validates :uin, presence: true, length: { minimum: 9 }, format: { with: /\d{9}/ }
+  validates :phonenumber, presence: true, length: { minimum: 10, maximum: 10 }, format: { with: /\d{10}/ }
+  validates :uin, presence: true, length: { minimum: 9, maximum: 9 }, format: { with: /\d{9}/ }
 end

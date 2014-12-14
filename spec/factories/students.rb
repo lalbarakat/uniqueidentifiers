@@ -6,8 +6,7 @@ FactoryGirl.define do
 		f.firstname { Faker::Name.first_name }
 		f.lastname { Faker::Name.last_name }
 		f.email { Faker::Internet.email }
-		f.phonenumber { Faker::PhoneNumber.cell_phone }
-		f.status { Faker::Lorem.sentence }
+		f.phonenumber { Faker::Base.numerify('##########') }
 		f.created_at { '2014-12-09 12:12:12' }
 		f.updated_at { '2014-12-10 10:12:12' }
 	end

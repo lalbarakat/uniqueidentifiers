@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.16'
 gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'rspec-rails'
 
 gem 'jquery-ui-rails'
 
@@ -42,5 +43,8 @@ gem 'jquery-rails'
 # gem 'debugger'
 # gem 'rubycas-client-rails'
 gem 'rack-cas'
+gem 'capybara', '~> 2.3.0'
+gem 'factory_girl'
+gem 'faker'
 
 gem 'cucumber-rails', :require => false

@@ -1,4 +1,4 @@
-class UsersController < AuthenticatedController
+class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
@@ -44,9 +44,9 @@ class UsersController < AuthenticatedController
 
     respond_to do |format|
       if @user.save
+        UserNotifier.send_signup_email(@user).deliver
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
-        UserNotifier.send_signup_email(@user).deliver
       else
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
