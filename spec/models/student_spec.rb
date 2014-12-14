@@ -6,7 +6,7 @@ describe Student do
 	end
 	
 	it "can insert student" do
-		FactoryGirl.build(:student, firstname: 'bruce', lastname: 'lee', email: 'aaa@google.com', uin: '12345678').should be_valid
+		FactoryGirl.build(:student, firstname: 'bruce', lastname: 'lee', email: 'aaa@google.com', phonenumber: '8885552345', uin: '123456789').should be_valid
 	end
 	
 	it "uin is 9-digest" do
