@@ -44,3 +44,13 @@ gem 'jquery-rails'
 gem 'rack-cas'
 
 gem 'cucumber-rails', :require => false
+gem 'database_cleaner'
+gem 'webrat'
+gem 'rspec'
+gem 'rspec-rails'
+#gem 'factory_girl_rails'
+gem 'selenium-webdriver'
+gem 'prickle'
+gem 'selenium'
+gem 'capybara-webkit'
+gem 'poltergeist'

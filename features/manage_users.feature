@@ -1,15 +1,15 @@
 Feature: Manage Users
   In order to make a login
   As an user
-  I want to create and manage users
+  I want to create, update, delete, view and manage users
   
   Scenario: Users List
-    Given I have user nameded Eric B, Laith M
+    Given I have user nameded Eric, Laith
     When I go to the list of users
-    Then I should see "Eric B"
-    And I should see "Laith M"
-  
-  Scenario: Create Valid User
+    Then I should see "Eric"
+    And I should see "Laith"
+
+	Scenario: Create Valid User
     Given I have no users
     And I am on the list of users
     When I follow "Add User"
@@ -25,8 +25,8 @@ Feature: Manage Users
     And I should see "Gvigus"
     And I should see "gvigus@tamu.edu"
     And I should have 1 user
-
- Scenario: Update existing User
+	
+	Scenario: Update existing User
     Given I have at least 1 user
     And I am on the list of users
     When I follow "Edit"
@@ -43,7 +43,16 @@ Feature: Manage Users
     And I should see "gvigus@tamu.edu"
     And I should have 1 user
 
- Scenario: Delete Valid User
+	Scenario: View Existing Student
+    Given I am on the students list
+    When I follow "show"
+    Then I should see "Uin"
+		And I should see "Firstname"
+		And I should see "Lastname"
+		And I should see "email"
+		And I should see "phonenumber"
+
+	 Scenario: Delete Valid User
     Given I have at least 1 users
     And I am on the list of users
     When I click on "remove" link within user1
