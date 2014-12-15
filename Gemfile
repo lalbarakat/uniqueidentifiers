@@ -51,7 +51,7 @@ gem 'cucumber-rails', :require => false
 gem 'database_cleaner'
 gem 'webrat'
 gem 'rspec'
-gem 'rspec-rails'
+#gem 'rspec-rails'
 #gem 'factory_girl_rails'
 gem 'selenium-webdriver'
 gem 'prickle'
