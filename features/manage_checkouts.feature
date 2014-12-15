@@ -1,48 +1,83 @@
-Feature: Manage Items
-  In order to list items
-  and create, update, delete, make item
+Feature: Manage Checkouts
+  In order to list checkouts
+  and create, update, delete checkout
   As an user
-  I want to create and manage Items
+  I want to create and manage checkouts
   
-  Scenario: Items List
-    Given I have item nameded Camera1, Camera2
-    When I go to the list of items
-    Then I should see "Camera1"
-    And I should see "Camera2"
-  
-  Scenario: Create Valid Item
-    Given I have no items
-    And I am on the list of items
-    When I click "Add item"
-    And I fill in "Name" with "Camera1"
-    And I slecet "Category" as "Cameras" 
-    And I press "Create Item"
-    Then I should see "Item was successfully created."
-    And I should see "camera1"
-    And I should have 1 item
+  Scenario: Checkouts List
+    Given I have checkout for item1, item2
+    When I go to the list of checkouts
+    Then I should see "item1"
+    And I should see "item2"
 
- Scenario: Update existing Item
-    Given I have at least 1 item
-    And I am on the list of items
-    When I follow "Edit"
-    And I fill in "Name" with "Microphone"
-    And I select "Category" as "Audio" 
-    And I press "OK"
-    Then I should see the list if items
-    And I should see "Microphone"
-    And I should see "Audio"
-    And I should have 1 item
+	Scenario: Create Valid Checkout
+    Given I have no checkouts
+    And I am on the dashbord
+    When I follow "Check out"
+    And I fill in "First Name" with "Glen"
+    And I fill "Last Name" with "Vigus" 
+    And I fill "User Name" with "123001234" 
+    And I fill "Email" with "gvigus@tamu.edu"
+		And I fill "Phone Number" with "9795951234"
+    And I press "Continue"
+    Then I should see "Scan Items"
+    And I should scan "Item1"
+		And I press "Continue"
+		Then I should see "review checkout"
+		And I press "Finish"
+    And I should have 1 checkout
 
- Scenario: Delete Valid Item
-    Given I have at least 1 items
-    And I am on the list of items
-    When I click on "remove" link within item1
+	Scenario: View Existing Checkout
+    Given I am on the checkouts list
+    When I follow "show"
+    Then I should see "view checkout"
+		And I should see "student"
+		And I should see "status"
+		And I should see "items"
+
+	Scenario: Update existing Checkout
+    Given I have at least 1 checkout
+    And I am on the list of checkouts
+    When I follow "Edit Checkout"
+		And I fill in "First Name" with "Glen"
+    And I fill "Last Name" with "Vigus" 
+    And I fill "User Name" with "123001234" 
+    And I fill "Email" with "gvigus@tamu.edu"
+		And I fill "Phone Number" with "9795951234"
+    And I press "Continue"
+    Then I should see "Scan Items"
+    And I should scan "Item1"
+		And I press "Continue"
+		Then I should see "review checkout"
+		And I press "Finish"
+    And I should have 1 checkout
+
+	Scenario: Delete Valid Checkout
+    Given I have at least 1 checkout
+    And I am on the list of checkouts
+    When I click on "delete" link within checkout1
     And confirm popup
-    Then I shouldn't see the item1
+    Then I shouldn't see the user1
 
-  Scenario: Pprint QR for item
-    Given I have at least 1 items
-    And I am on the list of items
-    When I click on "show" link within item1
-    And I click print
-    Then I shouldn pritn the QR for item1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

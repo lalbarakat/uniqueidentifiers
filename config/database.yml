@@ -15,7 +15,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: uniqueidentifiers_development
+  database: uniqueidentifiers
   pool: 5
   host: localhost
   username: saasbook
@@ -42,7 +42,7 @@ development:
 test: &test
   adapter: postgresql
   encoding: unicode
-  database: uniqueidentifiers_test
+  database: uniqueidentifiers
   pool: 5
   username: saasbook
   password: saasbook
