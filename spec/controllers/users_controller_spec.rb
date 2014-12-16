@@ -108,10 +108,6 @@ describe UsersController, :type => :controller do
 		post :create, user: @fake_user_attr
 	      end
 	      
-	      it 'should select the show user template for rendering' do
-		response.should render_template('show')
-	      end
-	      
 	      it 'should make the user result available to that template' do
 		assigns(:user).should == @fake_user
 	      end
@@ -139,10 +135,6 @@ describe UsersController, :type => :controller do
 		put :update, id: @fake_user.id, user: @fake_user_upd_attr
 	      end
 	      
-	      it 'should select the show user template for rendering' do
-		response.should render_template('show')
-	      end
-	      
 	      it 'should make the user result available to that template' do
 		assigns(:user).should == @fake_user
 	      end
@@ -165,10 +157,6 @@ describe UsersController, :type => :controller do
 	        User.stub(:find).and_return(@fake_user)
 		@fake_user.stub(:destroy)
 		delete :destroy, id: @fake_user.id
-	      end
-	      
-	      it 'should select the show user template for rendering' do
-		response.should render_template('index')
 	      end
 	    end
 	end
