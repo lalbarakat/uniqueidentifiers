@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-#=begin
+=begin
 #  before_filter CASClient::Frameworks::Rails::Filter
   def index
     @user = session[:cas]
@@ -9,5 +9,5 @@ class HomeController < ApplicationController
 #  def logout
 #    CASClient::Frameworks::Rails::Filter.logout(self)
 #  end
-#=end
+=end
 end
